@@ -4,10 +4,47 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Link from "next/link";
+import { ChevronLeft, LoaderCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
+import { useSignIn } from "@clerk/nextjs";
 
 export default function Component() {
+  const { isLoaded, signIn, setActive } = useSignIn();
+  const router = useRouter();
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function handleSignIn(e: React.FormEvent) {
+    e.preventDefault();
+    if (!isLoaded) return;
+    if (emailAddress === "" || password === "") {
+      toast.error("Please fill in all fields");
+      return;
+    }
+    try {
+      setIsLoading(true);
+      await signIn.create({
+        identifier: emailAddress,
+        password
+      });
+      await setActive({ session: signIn.createdSessionId });
+      router.push("/dashboard");
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.errors[0].message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
   return (
-    <div className=" min-h-screen flex items-center justify-center bg-black">
+    <div className="relative min-h-screen flex items-center justify-center bg-black">
+      <ChevronLeft
+        className="absolute top-4 left-4 text-white cursor-pointer"
+        onClick={() => router.push("/")}
+      />
       <div className="w-full max-w-md px-4">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-semibold text-white">LinksVault</h1>
@@ -23,19 +60,36 @@ export default function Component() {
           <CardContent className="space-y-4">
             <div className="space-y-4">
               <Input
+                disabled={isLoading}
+                value={emailAddress}
+                onChange={(e) => setEmailAddress(e.target.value)}
                 className="bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-400"
                 placeholder="Email"
                 type="email"
               />
               <Input
+                disabled={isLoading}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-400"
                 placeholder="Password"
                 type="password"
               />
             </div>
 
-            <Button className="w-full bg-white text-black hover:bg-zinc-200">
-              Sign In with Email
+            <Button
+              disabled={isLoading}
+              onClick={handleSignIn}
+              className="w-full bg-white text-black hover:bg-zinc-200"
+            >
+              {isLoading ? (
+                <div className="flex items-center gap-2">
+                  <LoaderCircle className="h-5 w-5 animate-spin" />
+                  Loading...
+                </div>
+              ) : (
+                "Sign In with Email"
+              )}
             </Button>
 
             <div className="relative">
@@ -48,7 +102,10 @@ export default function Component() {
                 </span>
               </div>
             </div>
-            <Button className="w-full text-white bg-zinc-950 border border-[#1c1c1c]">
+            <Button
+              disabled={isLoading}
+              className="w-full text-white bg-zinc-950 border border-[#1c1c1c]"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 x="0px"
