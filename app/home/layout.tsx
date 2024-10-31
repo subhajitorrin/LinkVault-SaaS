@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 
 const layout = ({ children }) => {
   return (
-    <div className="bg-white flex flex-col h-screen w-full ">
+    <div className="bg-black text-white flex flex-col h-screen w-full ">
       <UserNavbar />
       <Separator />
       <div className="md:px-[5%]">{children}</div>

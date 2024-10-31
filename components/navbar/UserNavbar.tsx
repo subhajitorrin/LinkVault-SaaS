@@ -25,7 +25,7 @@ export default function UserNavbar() {
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <header className="md:px-[5%] sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="bg-transparent md:px-[5%] sticky top-0 z-50 w-full ">
       <div className="container flex h-14 items-center">
         <div className="flex items-center space-x-6">
           <Link href="/" className="font-semibold text-lg">
@@ -38,7 +38,7 @@ export default function UserNavbar() {
                 <Input
                   type="search"
                   placeholder="Search bookmarks..."
-                  className="w-full pl-8 bg-muted"
+                  className="w-full pl-8 bg-transparent border border-[#3b3b3b]"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -49,24 +49,21 @@ export default function UserNavbar() {
         <NavigationMenu className="hidden ml-auto lg:flex">
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuLink
-                asChild
-                className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-              >
-                <Link href="/home" className="flex items-center space-x-1">
+              <NavigationMenuLink asChild>
+                <Link
+                  href="/home"
+                  className="px-2 flex items-center space-x-1 text-white bg-transparent"
+                >
                   <BookmarkCheck className="h-4 w-4" />
                   <span>All</span>
                 </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuLink
-                asChild
-                className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-              >
+              <NavigationMenuLink asChild>
                 <Link
                   href="/home/favorites"
-                  className="flex items-center space-x-1"
+                  className="px-2 flex items-center space-x-1 text-white bg-transparent"
                 >
                   <Star className="h-4 w-4" />
                   <span>Fav</span>
@@ -74,13 +71,10 @@ export default function UserNavbar() {
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuLink
-                asChild
-                className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-              >
+              <NavigationMenuLink asChild>
                 <Link
                   href="/home/categories"
-                  className="flex items-center space-x-1"
+                  className="px-2 mr-8 flex items-center space-x-1 text-white bg-transparent"
                 >
                   <Tags className="h-4 w-4" />
                   <span>Categories</span>
@@ -94,7 +88,6 @@ export default function UserNavbar() {
             <Bell className="h-4 w-4" />
             <span className="sr-only">Notifications</span>
           </Button>
-          
         </div>
       </div>
       <div className="container flex lg:hidden py-2">
