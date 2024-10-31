@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import Link from "next/link";
 
 export default function Component() {
   return (
@@ -13,7 +14,7 @@ export default function Component() {
         </div>
         <Card className="bg-zinc-950 border-zinc-800">
           <CardHeader className="space-y-1">
-            <h2 className="text-2xl font-semibold text-white">Login</h2>
+            <h2 className="text-2xl font-semibold text-white">Sign In</h2>
             <p className="text-zinc-400 text-sm">
               Effortlessly organize and categorize your links with AI-driven
               precision.
@@ -61,8 +62,13 @@ export default function Component() {
               </svg>{" "}
               Google
             </Button>
+            <p className="text-white text-sm text-center">
+              Don't have an account ?{" "}
+              <Link href="/signup" className="underline">
+                Sign Up
+              </Link>
+            </p>
           </CardContent>
-          
         </Card>
       </div>
       <div className="w-full h-3/6 absolute rounded-[50%] radial--blur opacity-20 mx-10 pointer-events-none" />
