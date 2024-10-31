@@ -174,7 +174,7 @@ export default function Component() {
             {filteredBookmarks.map((bookmark, index) => (
               <Card
                 key={index}
-                className="group relative overflow-hidden border-0 bg-zinc-900/50 hover:bg-zinc-900/80 transition-all duration-200"
+                className="group relative overflow-hidden border border-zinc-800 bg-zinc-900 hover:border-zinc-700 transition-all duration-200"
               >
                 <CardContent className="p-4 space-y-4">
                   <div className="flex items-start justify-between gap-2">
