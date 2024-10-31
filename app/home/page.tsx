@@ -3,6 +3,7 @@
 import {
   Bell,
   Bookmark,
+  BookmarkCheck,
   ExternalLink,
   Grid,
   Home,
@@ -121,27 +122,53 @@ export default function Component() {
     <main className=" flex-1 flex flex-col h-full overflow-hidden">
       {/* Bookmarks Content */}
       <div className="flex-1 overflow-auto">
-        <div className="p-6">
+        <div className="py-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold">All Bookmarks</h2>
-            <Select
-              value={selectedCategory}
-              onValueChange={setSelectedCategory}
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select a category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Categories</SelectLabel>
-                  {categories.map((category) => (
-                    <SelectItem key={category} value={category.toLowerCase()}>
-                      {category}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <div className="flex items-center space-x-2">
+              <BookmarkCheck className="h-5 w-5 text-primary" />
+              <h2 className="text-lg font-semibold">All Bookmarks</h2>
+            </div>
+            <div className="flex gap-2">
+              <Select
+                value={selectedCategory}
+                onValueChange={setSelectedCategory}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Categories</SelectLabel>
+                    {categories.map((category) => (
+                      <SelectItem key={category} value={category.toLowerCase()}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button className="rounded-[7px]">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Bookmark
+                  </Button>
+                </SheetTrigger>
+                <SheetContent>
+                  <SheetHeader>
+                    <SheetTitle>Add New Bookmark</SheetTitle>
+                    <SheetDescription>
+                      Add a new URL to your collection
+                    </SheetDescription>
+                  </SheetHeader>
+                  <div className="grid gap-4 py-4">
+                    <Input type="url" placeholder="Enter URL" />
+                    <Input type="text" placeholder="Title (Optional)" />
+                    <Button type="submit">Save Bookmark</Button>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {filteredBookmarks.map((bookmark) => (

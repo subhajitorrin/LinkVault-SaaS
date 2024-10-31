@@ -30,8 +30,8 @@ function Component() {
   ]);
 
   return (
-    <div className="flex-1 overflow-auto">
-      <div className="p-6">
+    <div className="flex-1 overflow-auto ">
+      <div className="py-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-2">
             <Tags className="h-5 w-5 text-primary" />
