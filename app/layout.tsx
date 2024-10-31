@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,7 +16,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={` bg-zinc-950`}>{children}</body>
+        <body className={` bg-zinc-950`}>
+          {children}
+          <Toaster position="top-right"/>
+        </body>
       </html>
     </ClerkProvider>
   );
