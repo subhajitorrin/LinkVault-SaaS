@@ -6,12 +6,12 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export default function Component() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black">
+    <div className=" min-h-screen flex items-center justify-center bg-black">
       <div className="w-full max-w-md px-4">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-semibold text-white">LinksVault</h1>
         </div>
-        <Card className="bg-zinc-900 border-zinc-800">
+        <Card className="bg-zinc-950 border-zinc-800">
           <CardHeader className="space-y-1">
             <h2 className="text-2xl font-semibold text-white">Login</h2>
             <p className="text-zinc-400 text-sm">
@@ -47,7 +47,7 @@ export default function Component() {
                 </span>
               </div>
             </div>
-            <Button className="w-full bg-zinc-950 text-white hover:bg-black">
+            <Button className="w-full text-white bg-zinc-950 border border-[#1c1c1c]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 x="0px"
@@ -62,8 +62,10 @@ export default function Component() {
               Google
             </Button>
           </CardContent>
+          
         </Card>
       </div>
+      <div className="w-full h-3/6 absolute rounded-[50%] radial--blur opacity-20 mx-10 pointer-events-none" />
     </div>
   );
 }
