@@ -125,7 +125,7 @@ export default function Component() {
         <div className="py-6">
           <div className="flex justify-between items-center mb-6">
             <div className="flex items-center space-x-2">
-              <BookmarkCheck className="h-5 w-5 text-primary" />
+              <BookmarkCheck className="h-5 w-5 text-white" />
               <h2 className="text-lg font-semibold">All Bookmarks</h2>
             </div>
             <div className="flex gap-2">
@@ -171,76 +171,72 @@ export default function Component() {
             </div>
           </div>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {filteredBookmarks.map((bookmark) => (
+            {filteredBookmarks.map((bookmark, index) => (
               <Card
-                key={bookmark.id}
-                className="overflow-hidden transition-all hover:shadow-lg"
+                key={index}
+                className="group relative overflow-hidden border-0 bg-zinc-900/50 hover:bg-zinc-900/80 transition-all duration-200"
               >
-                <CardHeader className="p-4 bg-muted/50">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <img
-                        src={bookmark.favicon}
-                        alt=""
-                        className="w-5 h-5 rounded-full"
-                        onError={(e) => {
-                          e.currentTarget.src =
-                            "/placeholder.svg?height=20&width=20";
-                        }}
-                      />
-                      <span className="font-semibold truncate">
+                <CardContent className="p-4 space-y-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-medium text-sm text-zinc-100 leading-none mb-2">
                         {bookmark.title}
-                      </span>
-                    </div>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                          <MoreHorizontal className="h-4 w-4" />
-                          <span className="sr-only">Open menu</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                        <DropdownMenuItem>Add to Favorites</DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-destructive">
-                          <Trash2 className="mr-2 h-4 w-4" />
-                          Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </CardHeader>
-                <CardContent className="p-4">
-                  <p className="text-sm text-muted-foreground truncate">
-                    {bookmark.url}
-                  </p>
-                </CardContent>
-                <CardFooter className="p-4 bg-muted/30 flex justify-between items-center">
-                  <span className="text-xs text-muted-foreground">
-                    {bookmark.dateAdded}
-                  </span>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-xs font-medium px-2 py-1 rounded-full bg-primary/10 text-primary">
-                      {bookmark.category}
-                    </span>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8"
-                      asChild
-                    >
+                      </h3>
                       <Link
                         href={bookmark.url}
+                        className="text-xs text-zinc-400 hover:text-zinc-300 truncate block"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <ExternalLink className="h-4 w-4" />
-                        <span className="sr-only">Open link</span>
+                        {bookmark.url}
                       </Link>
-                    </Button>
+                    </div>
+                    <div className="flex items-center gap-1 flex-shrink-0">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 text-zinc-400 hover:text-zinc-100"
+                        asChild
+                      >
+                        <Link
+                          href={bookmark.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                          <span className="sr-only">Open link</span>
+                        </Link>
+                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-zinc-400 hover:text-zinc-100"
+                          >
+                            <MoreHorizontal className="h-4 w-4" />
+                            <span className="sr-only">Open menu</span>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-48">
+                          <DropdownMenuItem>Edit</DropdownMenuItem>
+                          <DropdownMenuItem>Add to Favorites</DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="text-destructive">
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
                   </div>
-                </CardFooter>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-zinc-500">{bookmark.dateAdded}</span>
+                    <span className="inline-flex items-center rounded-full bg-zinc-800/50 px-2 py-1 text-xs font-medium text-zinc-300 ring-1 ring-inset ring-zinc-700/50">
+                      {bookmark.category}
+                    </span>
+                  </div>
+                </CardContent>
               </Card>
             ))}
           </div>
