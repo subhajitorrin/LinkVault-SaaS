@@ -62,7 +62,7 @@ export default function UserNavbar() {
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
                 <Link
-                  href="/home/favorites"
+                  href="/home/fav"
                   className="px-2 flex items-center space-x-1 text-white bg-transparent"
                 >
                   <Star className="h-4 w-4" />

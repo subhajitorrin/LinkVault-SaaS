@@ -100,10 +100,10 @@ export default function FavoritesComponent() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold flex items-center">
-          <Star className="h-6 w-6 mr-2 text-yellow-500" />
-          Favorites
-        </h1>
+        <div className="flex items-center space-x-2">
+          <Star className="h-5 w-5 text-primary" />
+          <h2 className="text-lg font-semibold">Favourites</h2>
+        </div>
         <div className="flex items-center space-x-4">
           <Select value={sortBy} onValueChange={setSortBy}>
             <SelectTrigger className="w-[180px]">
