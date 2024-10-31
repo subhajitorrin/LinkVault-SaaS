@@ -7,17 +7,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Link from "next/link";
-import { Eye, EyeOff, Mail } from "lucide-react";
+import { ChevronLeft, LoaderCircle } from "lucide-react";
 import { toast } from "sonner";
 
 export default function Component() {
   const { isLoaded, signUp, setActive } = useSignUp();
   const [password, setPassword] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
-  const [pendingVerify, setPendingVerify] = useState(true);
+  const [pendingVerify, setPendingVerify] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [otp, setOtp] = useState("");
-  const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
@@ -28,6 +27,7 @@ export default function Component() {
       return;
     }
     try {
+      setIsLoading(true);
       await signUp.create({
         emailAddress,
         password
@@ -36,9 +36,12 @@ export default function Component() {
         strategy: "email_code"
       });
       setPendingVerify(true);
+      toast.success("Otp sent on your email");
     } catch (err: any) {
       console.error(err);
-      setError(err.errors[0].message);
+      toast.error(err.errors[0].message);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -47,6 +50,7 @@ export default function Component() {
     if (!isLoaded) return;
 
     try {
+      setIsLoading(true);
       const result = await signUp.attemptEmailAddressVerification({
         code: otp
       });
@@ -57,12 +61,18 @@ export default function Component() {
       }
     } catch (err: any) {
       console.error(err);
-      setError(err.errors[0].message);
+      toast.error(err.errors[0].message);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
-    <div className=" min-h-screen flex items-center justify-center bg-black">
+    <div className=" min-h-screen flex items-center justify-center bg-black relative">
+      <ChevronLeft
+        className="absolute top-4 left-4 text-white cursor-pointer"
+        onClick={() => router.push("/")}
+      />
       <div className="w-full max-w-md px-4">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-semibold text-white">LinksVault</h1>
@@ -81,18 +91,28 @@ export default function Component() {
             <CardContent className="space-y-4">
               <div className="space-y-4">
                 <Input
+                  disabled={isLoading}
                   onChange={(e) => setOtp(e.target.value)}
                   className="bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-400"
                   placeholder="Enter otp"
                   type="text"
+                  value={otp}
                 />
               </div>
 
               <Button
+                disabled={isLoading}
                 onClick={handleVerify}
                 className="w-full bg-white text-black hover:bg-zinc-200"
               >
-                Verify
+                {isLoading ? (
+                  <div className="flex items-center gap-2">
+                    <LoaderCircle className="h-5 w-5 animate-spin" />
+                    Loading...
+                  </div>
+                ) : (
+                  "Verify"
+                )}
               </Button>
 
               <div className="relative">
@@ -105,7 +125,10 @@ export default function Component() {
                   </span>
                 </div>
               </div>
-              <Button className="w-full text-white bg-zinc-950 border border-[#1c1c1c]">
+              <Button
+                disabled={isLoading}
+                className="w-full text-white bg-zinc-950 border border-[#1c1c1c]"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   x="0px"
@@ -141,24 +164,35 @@ export default function Component() {
             <CardContent className="space-y-4">
               <div className="space-y-4">
                 <Input
+                  disabled={isLoading}
                   onChange={(e) => setEmailAddress(e.target.value)}
                   className="bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-400"
                   placeholder="Email"
                   type="email"
+                  value={emailAddress}
                 />
                 <Input
+                  disabled={isLoading}
                   onChange={(e) => setPassword(e.target.value)}
                   className="bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-400"
                   placeholder="Password"
                   type="password"
+                  value={password}
                 />
               </div>
-
               <Button
+                disabled={isLoading}
                 onClick={handleSubmit}
                 className="w-full bg-white text-black hover:bg-zinc-200"
               >
-                Sign Up with Email
+                {isLoading ? (
+                  <div className="flex items-center gap-2">
+                    <LoaderCircle className="h-5 w-5 animate-spin" />
+                    Loading...
+                  </div>
+                ) : (
+                  "Sign Up with Email"
+                )}
               </Button>
 
               <div className="relative">
@@ -171,7 +205,10 @@ export default function Component() {
                   </span>
                 </div>
               </div>
-              <Button className="w-full text-white bg-zinc-950 border border-[#1c1c1c]">
+              <Button
+                disabled={isLoading}
+                className="w-full text-white bg-zinc-950 border border-[#1c1c1c]"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   x="0px"
