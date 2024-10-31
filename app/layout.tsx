@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className="bg-zinc-950">
+        <body className={` bg-zinc-950`}>
           <Navbar />
           {children}
         </body>
