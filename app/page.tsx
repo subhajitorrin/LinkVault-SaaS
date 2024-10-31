@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { BadgePlus } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -28,6 +29,21 @@ const LandingPage = () => {
               <BadgePlus /> Get Started
             </Button>
           </Link>
+        </div>
+
+        <div className="relative py-20">
+          <div className="w-full h-3/6 absolute rounded-[50%] radial--blur opacity-40 mx-10" />
+          <div className="w-full aspect-video relative">
+            <Image
+              priority
+              src="/dashboard-snippet.png"
+              className="opacity-[0.95]"
+              alt="snippet"
+              sizes="100vw"
+              fill
+              objectFit="contain"
+            />
+          </div>
         </div>
       </section>
     </div>
