@@ -100,8 +100,8 @@ const LandingPage = () => {
 
         <section className="py-24 px-4 md:px-6 lg:px-8 mt-16">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl md:text-5xl font-bold text-center mb-4">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-foreground">
+            <h2 className=" text-3xl md:text-5xl font-bold text-center mb-4">
+              <span className="bg-clip-text text-transparent bg-gradient-to-l from-primary to-primary-foreground">
                 Powerful Features
               </span>
             </h2>
