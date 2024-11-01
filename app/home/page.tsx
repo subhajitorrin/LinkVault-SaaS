@@ -17,7 +17,7 @@ import {
   Trash2
 } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -55,12 +55,13 @@ import {
 import useZustStore from "@/store/useZustStore";
 
 export default function Component() {
-  const { addTodo } = useZustStore();
+  const { addTodo, getAllTodos, todos } = useZustStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [enteredUrl, setEnteredUrl] = useState("");
   const [enteredTitle, setEnteredTitle] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingAllTodos, setIsLoadingAllTodos] = useState(false);
   const [open, setOpen] = useState(false);
 
   const bookmarks = [
@@ -137,6 +138,10 @@ export default function Component() {
     }
   }
 
+  useEffect(() => {
+    getAllTodos(setIsLoadingAllTodos);
+  }, [getAllTodos]);
+
   return (
     <main className=" flex-1 flex flex-col h-full overflow-hidden">
       {/* Bookmarks Content */}
@@ -211,7 +216,7 @@ export default function Component() {
             </div>
           </div>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {filteredBookmarks.map((bookmark, index) => (
+            {todos.map((bookmark, index) => (
               <Card
                 key={index}
                 className="group relative overflow-hidden border border-zinc-800 bg-zinc-900 hover:border-zinc-700 transition-all duration-200"
@@ -223,12 +228,12 @@ export default function Component() {
                         {bookmark.title}
                       </h3>
                       <Link
-                        href={bookmark.url}
+                        href={bookmark.link}
                         className="text-xs text-zinc-400 hover:text-zinc-300 truncate block"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {bookmark.url}
+                        {bookmark.link}
                       </Link>
                     </div>
                     <div className="flex items-center gap-1 flex-shrink-0">
@@ -239,7 +244,7 @@ export default function Component() {
                         asChild
                       >
                         <Link
-                          href={bookmark.url}
+                          href={bookmark.link}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -271,9 +276,14 @@ export default function Component() {
                     </div>
                   </div>
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-zinc-500">{bookmark.dateAdded}</span>
+                    <span className="text-zinc-500">
+                      {new Date(bookmark.createdAt).toLocaleDateString(
+                        "en-US",
+                        { day: "numeric", month: "short", year: "numeric" }
+                      )}
+                    </span>
                     <span className="inline-flex items-center rounded-full bg-zinc-800/50 px-2 py-1 text-xs font-medium text-zinc-300 ring-1 ring-inset ring-zinc-700/50">
-                      {bookmark.category}
+                      {bookmark.category ? bookmark.category : "Nothing"}
                     </span>
                   </div>
                 </CardContent>

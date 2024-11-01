@@ -52,3 +52,20 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
 }
+
+export async function GET() {
+    try {
+        const { userId } = await auth();
+        if (!userId) {
+            return NextResponse.json({ error: "Unauthorized!" }, { status: 401 });
+        }
+        const todos = await prisma.todo.findMany({
+            where: { userId },
+            orderBy: { createdAt: 'desc' },
+        });
+        return NextResponse.json({ todos }, { status: 200 });
+    } catch (error) {
+        console.error("Unexpected error:", error);
+        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    }
+}

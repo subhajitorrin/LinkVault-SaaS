@@ -33,6 +33,19 @@ const useZustStore = create(
                 } finally {
                     setLoading(false);
                 }
+            },
+            getAllTodos: async (setLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+                try {
+                    setLoading(true);
+                    const { data } = await api.get("/api/protected/todo");
+                    set({ todos: data.todos });
+                } catch (error: any) {
+                    const errorMessage = error.response?.data?.message || error.message;
+                    toast.error(errorMessage);
+                    return error;
+                } finally {
+                    setLoading(false);
+                }
             }
         }),
         {
