@@ -223,83 +223,93 @@ export default function Component() {
               </Sheet>
             </div>
           </div>
+          {todos.length === 0 ? (
+            <div className="h-full w-full flex justify-center mt-[30vh]">
+              <p className="text-zinc-400 text-sm font-medium text-center">
+                No bookmarks found
+              </p>
+            </div>
+          ) : null}
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {todos.map((bookmark, index) => (
-              <Card
-                key={index}
-                className="group relative overflow-hidden border border-zinc-800 bg-zinc-900 hover:border-zinc-700 transition-all duration-200"
-              >
-                <CardContent className="p-4 space-y-4">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="min-w-0 flex-1">
-                      <h3 className="font-medium text-sm text-zinc-100 leading-none mb-2">
-                        {bookmark.title}
-                      </h3>
-                      <Link
-                        href={bookmark.link}
-                        className="text-xs text-zinc-400 hover:text-zinc-300 truncate block"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {bookmark.link}
-                      </Link>
-                    </div>
-                    <div className="flex items-center gap-1 flex-shrink-0">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 text-zinc-400"
-                        asChild
-                      >
+            {todos.length > 0 &&
+              todos.map((bookmark, index) => (
+                <Card
+                  key={index}
+                  className="group relative overflow-hidden border border-zinc-800 bg-zinc-900 hover:border-zinc-700 transition-all duration-200"
+                >
+                  <CardContent className="p-4 space-y-4">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-medium text-sm text-zinc-100 leading-none mb-2">
+                          {bookmark.title}
+                        </h3>
                         <Link
                           href={bookmark.link}
+                          className="text-xs text-zinc-400 hover:text-zinc-300 truncate block"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          <ExternalLink className="h-4 w-4" />
-                          <span className="sr-only">Open link</span>
+                          {bookmark.link}
                         </Link>
-                      </Button>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 text-zinc-400 "
+                      </div>
+                      <div className="flex items-center gap-1 flex-shrink-0">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-zinc-400"
+                          asChild
+                        >
+                          <Link
+                            href={bookmark.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
                           >
-                            <MoreHorizontal className="h-4 w-4" />
-                            <span className="sr-only">Open menu</span>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-48">
-                          <DropdownMenuItem>Edit</DropdownMenuItem>
-                          <DropdownMenuItem>Add to Favorites</DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem
-                            onClick={() => handleDeleteTodo(bookmark.id)}
-                            className="text-destructive"
-                          >
-                            <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                            <ExternalLink className="h-4 w-4" />
+                            <span className="sr-only">Open link</span>
+                          </Link>
+                        </Button>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 text-zinc-400 "
+                            >
+                              <MoreHorizontal className="h-4 w-4" />
+                              <span className="sr-only">Open menu</span>
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-48">
+                            <DropdownMenuItem>Edit</DropdownMenuItem>
+                            <DropdownMenuItem>
+                              Add to Favorites
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              onClick={() => handleDeleteTodo(bookmark.id)}
+                              className="text-destructive"
+                            >
+                              <Trash2 className="mr-2 h-4 w-4" />
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-zinc-500">
-                      {new Date(bookmark.createdAt).toLocaleDateString(
-                        "en-US",
-                        { day: "numeric", month: "short", year: "numeric" }
-                      )}
-                    </span>
-                    <span className="inline-flex items-center rounded-full bg-zinc-800/50 px-2 py-1 text-xs font-medium text-zinc-300 ring-1 ring-inset ring-zinc-700/50">
-                      {bookmark.category ? bookmark.category : "Nothing"}
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-zinc-500">
+                        {new Date(bookmark.createdAt).toLocaleDateString(
+                          "en-US",
+                          { day: "numeric", month: "short", year: "numeric" }
+                        )}
+                      </span>
+                      <span className="inline-flex items-center rounded-full bg-zinc-800/50 px-2 py-1 text-xs font-medium text-zinc-300 ring-1 ring-inset ring-zinc-700/50">
+                        {bookmark.category ? bookmark.category : "Nothing"}
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
           </div>
         </div>
       </div>

@@ -24,6 +24,7 @@ const useZustStore = create(
                 setLoading(true);
                 try {
                     const { data } = await api.post("/api/protected/todo", todo);
+                    await get().getAllTodos(setLoading);
                     toast.success("Added to your list");
                     return data;
                 } catch (error: any) {

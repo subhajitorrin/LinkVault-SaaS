@@ -12,7 +12,7 @@ export async function POST(req: Request) {
         // Authenticate the user
         const { userId } = await auth();
         if (!userId) {
-            return NextResponse.json({ error: "Unauthorized!" }, { status: 401 });
+            return NextResponse.json({ message: "Unauthorized!" }, { status: 401 });
         }
 
         // Parse the request payload
@@ -20,10 +20,10 @@ export async function POST(req: Request) {
 
         // Basic input validation
         if (!payload.title || typeof payload.title !== 'string' || payload.title.trim().length === 0) {
-            return NextResponse.json({ error: "Title is required and must be a non-empty string." }, { status: 400 });
+            return NextResponse.json({ message: "Title is required and must be a non-empty string." }, { status: 400 });
         }
         if (!payload.url || !isValidUrl(payload.url)) {
-            return NextResponse.json({ error: "Invalid URL format." }, { status: 400 });
+            return NextResponse.json({ message: "Invalid URL format." }, { status: 400 });
         }
 
         // Fetch the user from the database
@@ -31,7 +31,11 @@ export async function POST(req: Request) {
             where: { id: userId },
         });
         if (!user) {
-            return NextResponse.json({ error: "User not found!" }, { status: 404 });
+            return NextResponse.json({ message: "User not found!" }, { status: 404 });
+        }
+
+        if (user.credit < 1) {
+            return NextResponse.json({ message: "Insufficient credits!" }, { status: 403 });
         }
 
         // Create a new todo item in the database
@@ -44,12 +48,24 @@ export async function POST(req: Request) {
             },
         });
 
+        await prisma.user.update({
+            where: { id: userId },
+            data: {
+                credit: {
+                    decrement: 1,
+                },
+                todo: {
+                    connect: { id: newTodo.id },
+                },
+            },
+        });
+
         return NextResponse.json({ message: "Todo created successfully!", todo: newTodo }, { status: 201 });
     } catch (error) {
         // Log unexpected errors
         console.error("Unexpected error:", error);
 
-        return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+        return NextResponse.json({ message: "Internal server error" }, { status: 500 });
     }
 }
 
