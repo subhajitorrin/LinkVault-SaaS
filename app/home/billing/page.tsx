@@ -9,13 +9,19 @@ import {
   CardDescription
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle2, CircleDollarSign, HelpCircle } from "lucide-react";
+import {
+  CheckCircle2,
+  CircleDollarSign,
+  HelpCircle,
+  LoaderCircle
+} from "lucide-react";
+import useZustStore from "@/store/useZustStore";
 
 export default function BillingPage() {
+  const { user } = useZustStore();
   const [currentPlan, setCurrentPlan] = useState("Free");
-  const [daysLeft, setDaysLeft] = useState(18);
-  const [bookmarksUsed, setBookmarksUsed] = useState(732);
-  const [bookmarksLimit, setBookmarksLimit] = useState(1000);
+  const [daysLeft, setDaysLeft] = useState(0);
+  const [bookmarksLimit, setBookmarksLimit] = useState(5);
 
   const plans = [
     {
@@ -42,6 +48,15 @@ export default function BillingPage() {
       ]
     }
   ];
+
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center mt-[5%] text-base text-zinc-500 gap-2">
+        <LoaderCircle className="h-5 w-5 animate-spin" />
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screenk text-gray-100">
@@ -76,7 +91,7 @@ export default function BillingPage() {
                 </div>
                 <Progress
                   value={((30 - daysLeft) / 30) * 100}
-                  className="w-full h-1 bg-white"
+                  className="w-full h-1 bg-white hidden md:block"
                 />
               </div>
               <div>
@@ -85,13 +100,17 @@ export default function BillingPage() {
                     Bookmark usage
                   </span>
                   <span className="text-sm font-medium text-gray-300">
-                    {bookmarksUsed} / {bookmarksLimit}
+                    {bookmarksLimit - user.credit} / {bookmarksLimit}
                   </span>
                 </div>
-                <Progress
-                  value={(bookmarksUsed / bookmarksLimit) * 100}
-                  className="w-full h-1 bg-white"
-                />
+                <div className="bg-zinc-950 md:w-[200px]  flex float-right relative">
+                  <Progress
+                    value={
+                      ((bookmarksLimit - user.credit) / bookmarksLimit) * 100
+                    }
+                    className="w-full h-1 bg-white hidden md:block"
+                  />
+                </div>
               </div>
             </div>
           </CardContent>
