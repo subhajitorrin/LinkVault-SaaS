@@ -6,7 +6,8 @@ import {
   LoaderCircle,
   Plus,
   SquarePen,
-  Trash2
+  Trash2,
+  Search
 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -21,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import useZustStore from "@/store/useZustStore";
 import UpdateModal from "@/components/todos/UpdateModal";
 import AddModal from "@/components/todos/AddModal";
@@ -30,57 +32,11 @@ export default function Component() {
     useZustStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [enteredUrl, setEnteredUrl] = useState("");
-  const [enteredTitle, setEnteredTitle] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingAllTodos, setIsLoadingAllTodos] = useState(true);
-  const [open, setOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(-1);
   const [addOpen, setAddOpen] = useState(false);
   const [isLoadingDel, setIsLoadingDel] = useState(false);
-
-  const bookmarks = [
-    {
-      id: 1,
-      title: "How to Build a SaaS Platform",
-      url: "https://example.com/saas-guide",
-      category: "Development",
-      dateAdded: "2024-02-15",
-      favicon: "https://example.com/favicon.ico"
-    },
-    {
-      id: 2,
-      title: "The Future of AI in 2024",
-      url: "https://example.com/ai-future",
-      category: "Technology",
-      dateAdded: "2024-02-14",
-      favicon: "https://example.com/favicon.ico"
-    },
-    {
-      id: 3,
-      title: "Marketing Strategies for Startups",
-      url: "https://example.com/marketing",
-      category: "Business",
-      dateAdded: "2024-02-13",
-      favicon: "https://example.com/favicon.ico"
-    },
-    {
-      id: 4,
-      title: "UI/UX Design Principles",
-      url: "https://example.com/ui-ux-design",
-      category: "Design",
-      dateAdded: "2024-02-12",
-      favicon: "https://example.com/favicon.ico"
-    },
-    {
-      id: 5,
-      title: "Introduction to Machine Learning",
-      url: "https://example.com/machine-learning",
-      category: "Technology",
-      dateAdded: "2024-02-11",
-      favicon: "https://example.com/favicon.ico"
-    }
-  ];
 
   const categories = [
     "All",
@@ -91,27 +47,16 @@ export default function Component() {
     "Marketing"
   ];
 
-  const filteredBookmarks = bookmarks.filter((bookmark) => {
+  const filteredBookmarks = todos.filter((bookmark) => {
     const matchesSearch =
       bookmark.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      bookmark.url.toLowerCase().includes(searchQuery.toLowerCase());
+      bookmark.link.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory =
       selectedCategory.toLowerCase() === "all" ||
-      bookmark.category.toLowerCase() === selectedCategory.toLowerCase();
+      (bookmark.category &&
+        bookmark.category.toLowerCase() === selectedCategory.toLowerCase());
     return matchesSearch && matchesCategory;
   });
-
-  async function handleAddBookmark(e: React.FormEvent) {
-    e.preventDefault();
-    try {
-      await addTodo({ url: enteredUrl, title: enteredTitle }, setIsLoading);
-      setEnteredUrl("");
-      setEnteredTitle("");
-      setOpen(false);
-    } catch (err: any) {
-      console.error(err);
-    }
-  }
 
   async function handleDeleteTodo(id: string) {
     try {
@@ -133,21 +78,31 @@ export default function Component() {
   }, [getUser]);
 
   return (
-    <main className=" flex-1 flex flex-col h-full overflow-hidden">
-      {/* Bookmarks Content */}
-      <div className="flex-1 overflow-auto">
-        <div className="py-6">
-          <div className="flex justify-between items-center mb-6">
+    <main className="flex-1 flex flex-col h-full overflow-hidden">
+      <div className="flex-1 overflow-auto p-4 md:p-6">
+        <div className="max-w-7xl mx-auto space-y-6">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div className="flex items-center space-x-2">
               <BookmarkCheck className="h-5 w-5 text-white" />
               <h2 className="text-lg font-semibold">All Bookmarks</h2>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row w-full md:w-auto gap-2">
+              <div className="relative w-full sm:w-64">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="search"
+                  placeholder="Search bookmarks..."
+                  className="pl-8 w-full border border-zinc-800"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
               <Select
                 value={selectedCategory}
                 onValueChange={setSelectedCategory}
               >
-                <SelectTrigger className="w-[180px]">
+                {/* hidden element */}
+                <SelectTrigger className="w-full sm:w-[180px] hidden">
                   <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
                 <SelectContent>
@@ -161,11 +116,10 @@ export default function Component() {
                   </SelectGroup>
                 </SelectContent>
               </Select>
-
               <Button
                 disabled={!user || user.credit === 0}
                 onClick={() => setAddOpen(true)}
-                className="rounded-[7px]"
+                className="w-full sm:w-auto rounded-[7px] mt-2 md:mt-0"
               >
                 {user && user.credit > 0 ? (
                   <>
@@ -176,7 +130,6 @@ export default function Component() {
                   <p className="text-center">No credit left</p>
                 )}
               </Button>
-              <AddModal isOpen={addOpen} setIsOpen={setAddOpen} />
             </div>
           </div>
           {isLoadingAllTodos ? (
@@ -184,57 +137,45 @@ export default function Component() {
               <LoaderCircle className="h-5 w-5 animate-spin" />
               <p>Loading...</p>
             </div>
-          ) : todos.length === 0 ? (
+          ) : filteredBookmarks.length === 0 ? (
             <div className="h-full w-full flex justify-center mt-[30vh]">
               <p className="text-zinc-400 text-sm font-medium text-center">
                 No bookmarks found
               </p>
             </div>
-          ) : null}
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {!isLoadingAllTodos &&
-              todos.length > 0 &&
-              todos.map((bookmark, index) => (
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {filteredBookmarks.map((bookmark, index) => (
                 <Card
                   key={index}
                   className="group relative overflow-hidden border border-zinc-800 bg-zinc-900 hover:border-zinc-700 transition-all duration-200"
                 >
                   <CardContent className="p-4 space-y-4">
-                    <div className=" flex justify-between items-center">
-                      <h3 className="font-medium text-sm text-zinc-100 leading-none">
+                    <div className="flex justify-between items-start">
+                      <h3 className="font-medium text-sm text-zinc-100 leading-tight mr-2">
                         {bookmark.title}
                       </h3>
-
                       <div className="flex items-center gap-1 flex-shrink-0">
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-zinc-400 "
+                          className="h-8 w-8 text-zinc-400"
                         >
                           <Heart className="h-4 w-4" />
                         </Button>
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-zinc-400 "
+                          className="h-8 w-8 text-zinc-400"
                           onClick={() => setUpdateOpen(index)}
                         >
-                          <SquarePen className="h-4 w-4 " />
+                          <SquarePen className="h-4 w-4" />
                         </Button>
-                        {updateOpen === index && (
-                          <UpdateModal
-                            prevLink={bookmark.link}
-                            prevTitle={bookmark.title}
-                            id={bookmark.id}
-                            isOpen={updateOpen}
-                            setIsOpen={setUpdateOpen}
-                          />
-                        )}
                         <Button
                           disabled={isLoadingDel}
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-zinc-400 "
+                          className="h-8 w-8 text-zinc-400"
                           onClick={() => handleDeleteTodo(bookmark.id)}
                         >
                           {isLoadingDel ? (
@@ -245,19 +186,17 @@ export default function Component() {
                         </Button>
                       </div>
                     </div>
-
-                    <div className="">
+                    <div className="break-all">
                       <Link
                         href={bookmark.link}
-                        className="text-xs text-zinc-400 hover:text-zinc-300 truncate block"
+                        className="text-xs text-zinc-400 hover:text-zinc-300"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         {bookmark.link}
                       </Link>
                     </div>
-
-                    <div className="flex items-center justify-between text-xs">
+                    <div className="flex flex-wrap items-center justify-between text-xs gap-2">
                       <span className="text-zinc-500">
                         {new Date(bookmark.createdAt).toLocaleDateString(
                           "en-US",
@@ -267,17 +206,7 @@ export default function Component() {
                             year: "numeric"
                           }
                         )}
-                        &nbsp;•&nbsp;
-                        {new Date(bookmark.createdAt).toLocaleTimeString(
-                          "en-US",
-                          {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                            hour12: true
-                          }
-                        )}
                       </span>
-
                       <span className="inline-flex items-center rounded-full bg-zinc-800/50 px-2 py-1 text-xs font-medium text-zinc-300 ring-1 ring-inset ring-zinc-700/50">
                         {bookmark.category ? bookmark.category : "Nothing"}
                       </span>
@@ -285,9 +214,20 @@ export default function Component() {
                   </CardContent>
                 </Card>
               ))}
-          </div>
+            </div>
+          )}
         </div>
       </div>
+      <AddModal isOpen={addOpen} setIsOpen={setAddOpen} />
+      {updateOpen !== -1 && (
+        <UpdateModal
+          prevLink={todos[updateOpen].link}
+          prevTitle={todos[updateOpen].title}
+          id={todos[updateOpen].id}
+          isOpen={updateOpen !== -1}
+          setIsOpen={() => setUpdateOpen(-1)}
+        />
+      )}
     </main>
   );
 }
