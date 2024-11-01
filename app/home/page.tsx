@@ -36,7 +36,8 @@ export default function Component() {
   const [isLoadingAllTodos, setIsLoadingAllTodos] = useState(true);
   const [updateOpen, setUpdateOpen] = useState(-1);
   const [addOpen, setAddOpen] = useState(false);
-  const [isLoadingDel, setIsLoadingDel] = useState(false);
+  const [isLoadingDel, setIsLoadingDel] = useState<boolean>(false);
+  const [getDeleteItem, setGetDeleteItem] = useState("");
 
   const categories = [
     "All",
@@ -60,9 +61,12 @@ export default function Component() {
 
   async function handleDeleteTodo(id: string) {
     try {
+      setGetDeleteItem(id);
       await deleteTodo(id, setIsLoadingDel);
     } catch (err: any) {
       console.error(err);
+    } finally {
+      setGetDeleteItem(null);
     }
   }
 
@@ -178,7 +182,7 @@ export default function Component() {
                           className="h-8 w-8 text-zinc-400"
                           onClick={() => handleDeleteTodo(bookmark.id)}
                         >
-                          {isLoadingDel ? (
+                          {isLoadingDel && bookmark.id === getDeleteItem ? (
                             <LoaderCircle className="h-4 w-4 animate-spin" />
                           ) : (
                             <Trash2 className="h-4 w-4" />
