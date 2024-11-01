@@ -127,7 +127,7 @@ export default function BillingPage() {
                 <ul className="space-y-2 flex-grow mb-6">
                   {plan.features.map((feature, index) => (
                     <li key={index} className="flex items-center text-gray-300">
-                      <CheckCircle2 className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0" />
+                      <CheckCircle2 className="h-5 w-5 text-green-600 mr-2 flex-shrink-0" />
                       <span>{feature}</span>
                     </li>
                   ))}
