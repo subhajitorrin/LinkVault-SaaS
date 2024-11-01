@@ -49,18 +49,6 @@ export default function UserNavbar() {
           <Link href="/" className="font-semibold text-lg">
             LinksVault
           </Link>
-          <form className="hidden md:block">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search bookmarks..."
-                className="w-full md:w-[300px] pl-8 bg-transparent border border-gray-700"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-          </form>
         </div>
 
         <NavigationMenu className="hidden lg:flex">
@@ -82,10 +70,6 @@ export default function UserNavbar() {
         </NavigationMenu>
 
         <div className="flex items-center space-x-2">
-          <Button variant="ghost" size="icon" className="h-9 w-9 lg:hidden">
-            <Search className="h-4 w-4" />
-            <span className="sr-only">Search</span>
-          </Button>
           <Button variant="ghost" size="icon" className="h-9 w-9">
             <Bell className="h-4 w-4" />
             <span className="sr-only">Notifications</span>
@@ -125,20 +109,6 @@ export default function UserNavbar() {
             </SheetContent>
           </Sheet>
         </div>
-      </div>
-      <div className="md:hidden py-2">
-        <form>
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search bookmarks..."
-              className="w-full pl-8 bg-transparent border border-gray-700"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-        </form>
       </div>
     </header>
   );
