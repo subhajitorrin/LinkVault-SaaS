@@ -230,6 +230,7 @@ export default function Component() {
           prevLink={todos[updateOpen].link}
           prevTitle={todos[updateOpen].title}
           id={todos[updateOpen].id}
+          // @ts-ignore
           isOpen={updateOpen !== -1}
           setIsOpen={() => setUpdateOpen(-1)}
         />
