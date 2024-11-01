@@ -1,4 +1,5 @@
-//@ts-ignore
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
@@ -27,13 +28,15 @@ const useZustStore = create(
                 setLoading(true);
                 try {
                     const { data } = await api.post("/api/protected/todo", todo);
+                    //@ts-ignore
                     await get().getAllTodos(setLoading);
+                    //@ts-ignore
                     await get().getUser();
                     toast.success("Added to your list");
                     return data;
-                } catch (error: any) {
-                    const errorMessage = error.response?.data?.message || error.message;
-                    toast.error(errorMessage);
+                } catch (error: unknown) {
+                    console.log(error);
+                    toast.error("Something went wrong");
                     return error;
                 } finally {
                     setLoading(false);
@@ -46,9 +49,9 @@ const useZustStore = create(
                     setLoading(true);
                     const { data } = await api.get("/api/protected/todo");
                     set({ todos: data.todos });
-                } catch (error: any) {
-                    const errorMessage = error.response?.data?.message || error.message;
-                    toast.error(errorMessage);
+                } catch (error: unknown) {
+                    console.log(error);
+                    toast.error("Something went wrong");
                     return error;
                 } finally {
                     setLoading(false);
@@ -61,13 +64,15 @@ const useZustStore = create(
                 try {
                     setLoading(true);
                     const { data } = await api.delete(`/api/protected/todo/${id}`);
+                    //@ts-ignore
                     await get().getUser();
+                    //@ts-ignore
                     await get().getAllTodos(setLoading);
                     toast.success("Deleted from your list");
                     return data;
-                } catch (error: any) {
-                    const errorMessage = error.response?.data?.message || error.message;
-                    toast.error(errorMessage);
+                } catch (error: unknown) {
+                    console.log(error);
+                    toast.error("Something went wrong");
                     return error;
                 } finally {
                     setLoading(false);
@@ -85,12 +90,13 @@ const useZustStore = create(
                         link,
                         title
                     });
+                    //@ts-ignore
                     await get().getAllTodos(setIsLoading);
                     toast.success("Updated successfully");
                     return data;
-                } catch (error: any) {
-                    const errorMessage = error.response?.data?.message || error.message;
-                    toast.error(errorMessage);
+                } catch (error: unknown) {
+                    console.log();
+                    toast.error("Something went wrong");
                     return error;
                 } finally {
                     setIsLoading(false);
@@ -100,9 +106,9 @@ const useZustStore = create(
                 try {
                     const { data } = await api.get("/api/protected/user");
                     set({ user: data.user });
-                } catch (error: any) {
-                    const errorMessage = error.response?.data?.message || error.message;
-                    toast.error(errorMessage);
+                } catch (error: unknown) {
+                    console.log(error);
+                    toast.error("Something went wrong");
                     return error;
                 }
             }
@@ -110,6 +116,7 @@ const useZustStore = create(
         {
             name: "linkVaultStore",
             partialize: (state) => ({
+                //@ts-ignore
                 user: state.user
             }),
             storage: createJSONStorage(() => sessionStorage)
