@@ -61,6 +61,7 @@ export default function Component() {
   const [enteredUrl, setEnteredUrl] = useState("");
   const [enteredTitle, setEnteredTitle] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
 
   const bookmarks = [
     {
@@ -126,7 +127,14 @@ export default function Component() {
 
   async function handleAddBookmark(e: React.FormEvent) {
     e.preventDefault();
-    await addTodo({ url: enteredUrl, title: enteredTitle });
+    try {
+      await addTodo({ url: enteredUrl, title: enteredTitle }, setIsLoading);
+      setEnteredUrl("");
+      setEnteredTitle("");
+      setOpen(false);
+    } catch (err: any) {
+      console.error(err);
+    }
   }
 
   return (
@@ -158,7 +166,7 @@ export default function Component() {
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              <Sheet>
+              <Sheet open={open} onOpenChange={setOpen}>
                 <SheetTrigger asChild>
                   <Button className="rounded-[7px]">
                     <Plus className="h-4 w-4 mr-2" />

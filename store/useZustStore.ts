@@ -13,20 +13,25 @@ const useZustStore = create(
     persist(
         (set, get) => ({
             todos: [],
-            addTodo: async (todo: { url: string, title: string }) => {
+            addTodo: async (
+                todo: { url: string; title: string },
+                setLoading: React.Dispatch<React.SetStateAction<boolean>>
+            ) => {
                 if (!todo.url) {
-                    toast.error("Please enter a valid url");
+                    toast.error("Please enter a valid URL");
                     return;
                 }
+                setLoading(true);
                 try {
                     const { data } = await api.post("/api/protected/todo", todo);
-                    console.log(data);
                     toast.success("Added to your list");
+                    return data
                 } catch (error: any) {
-                    toast.error(error.message);
-                    console.log(error);
+                    const errorMessage = error.response?.data?.message || error.message;
+                    toast.error(errorMessage);
+                    return error;
                 } finally {
-
+                    setLoading(false);
                 }
             }
         }),
