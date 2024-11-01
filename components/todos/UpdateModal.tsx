@@ -45,14 +45,14 @@ export default function UpdateModal({
       await updateTodo(id, url, title, setIsLoading);
       setUrl("");
       setTitle("");
-      setIsOpen(false);
+      setIsOpen(-1);
     } catch (error: any) {
       console.log(error);
     }
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen >= 0 ? true : false} onOpenChange={setIsOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-semibold">

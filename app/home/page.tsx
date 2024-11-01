@@ -43,7 +43,7 @@ export default function Component() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingAllTodos, setIsLoadingAllTodos] = useState(false);
   const [open, setOpen] = useState(false);
-  const [updateOpen, setUpdateOpen] = useState(false);
+  const [updateOpen, setUpdateOpen] = useState(-1);
   const [addOpen, setAddOpen] = useState(false);
   const [isLoadingDel, setIsLoadingDel] = useState(false);
 
@@ -212,17 +212,19 @@ export default function Component() {
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 text-zinc-400 "
-                          onClick={() => setUpdateOpen(true)}
+                          onClick={() => setUpdateOpen(index)}
                         >
                           <SquarePen className="h-4 w-4 " />
                         </Button>
-                        <UpdateModal
-                          prevLink={bookmark.link}
-                          prevTitle={bookmark.title}
-                          id={bookmark.id}
-                          isOpen={updateOpen}
-                          setIsOpen={setUpdateOpen}
-                        />
+                        {updateOpen === index && (
+                          <UpdateModal
+                            prevLink={bookmark.link}
+                            prevTitle={bookmark.title}
+                            id={bookmark.id}
+                            isOpen={updateOpen}
+                            setIsOpen={setUpdateOpen}
+                          />
+                        )}
                         <Button
                           disabled={isLoadingDel}
                           variant="ghost"
