@@ -1,6 +1,7 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
+import prisma from '@/lib/prisma'
 
 export async function POST(req: Request) {
     const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
@@ -49,7 +50,12 @@ export async function POST(req: Request) {
     const eventType = evt.type
 
     if (eventType === 'user.created') {
-        console.log(evt.data);
+        const { id } = evt.data
+        const user = await prisma.user.create({
+            data: {
+                id,
+            },
+        })
     }
 
     return new Response('Internal server error webhook', { status: 200 })
