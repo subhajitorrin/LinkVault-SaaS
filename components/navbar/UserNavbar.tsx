@@ -1,6 +1,14 @@
 "use client";
 
-import { Bell, BookmarkCheck, Plus, Search, Star, Tags } from "lucide-react";
+import {
+  Bell,
+  BookmarkCheck,
+  CircleDollarSign,
+  Plus,
+  Search,
+  Star,
+  Tags
+} from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -76,10 +84,21 @@ export default function UserNavbar() {
               <NavigationMenuLink asChild>
                 <Link
                   href="/home/categories"
-                  className="px-2 mr-4 flex items-center space-x-1 text-white bg-transparent"
+                  className="px-2 flex items-center space-x-1 text-white bg-transparent"
                 >
                   <Tags className="h-4 w-4" />
                   <span>Categories</span>
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink asChild>
+                <Link
+                  href="/home/billing"
+                  className="px-2 mr-4 flex items-center space-x-1 text-white bg-transparent"
+                >
+                  <CircleDollarSign className="h-4 w-4" />
+                  <span>Billing</span>
                 </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
