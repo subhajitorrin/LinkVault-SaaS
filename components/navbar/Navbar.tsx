@@ -14,25 +14,25 @@ import {
 const navItems = [
   {
     name: "Home",
-    path: "/",
+    path: "#home",
     ele: <Home className="h-4 w-4" />
   },
   {
-    name: "Pricing",
-    path: "/pricing",
-    ele: <DollarSign className="h-4 w-4" />
+    name: "Feature",
+    path: "#feature",
+    ele: <Compass className="h-4 w-4" />
   },
   {
-    name: "Explore",
-    path: "/explore",
-    ele: <Compass className="h-4 w-4" />
+    name: "Pricing",
+    path: "#pricing",
+    ele: <DollarSign className="h-4 w-4" />
   }
 ];
 
 const Navbar = () => {
   const [open, setOpen] = React.useState<boolean>(false);
   return (
-    <nav className="py-4 md:px-[10%] px-[5%] w-full flex justify-between text-white items-center">
+    <nav className="sticky top-0 backdrop-blur-md z-[1000] py-2 md:px-[10%] px-[5%] w-full flex justify-between text-white items-center">
       <Link href={"/"} className="font-bold md:text-2xl text-lg">
         LinksVault
       </Link>
