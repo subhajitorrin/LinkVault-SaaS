@@ -27,7 +27,7 @@ const LandingPage = () => {
             >
               Watch Demo
             </Button>
-            <Link href="/signin" className="w-full md:w-auto">
+            <Link href="/sign-in" className="w-full md:w-auto">
               <Button className="rounded-md text-sm flex gap-2 w-full">
                 <BadgePlus /> Get Started
               </Button>
@@ -35,7 +35,7 @@ const LandingPage = () => {
           </div>
 
           <div className="relative md:py-20 mt-8">
-            <div className="w-full h-3/6 absolute rounded-[50%] radial--blur opacity-60 mx-10" />
+            <div className="w-full h-3/6 absolute rounded-[50%] radial--blur opacity-40 mx-10" />
             <div className="w-full aspect-video relative">
               <Image
                 priority
