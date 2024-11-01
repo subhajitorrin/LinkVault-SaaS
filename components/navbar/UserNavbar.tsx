@@ -51,7 +51,8 @@ export default function UserNavbar() {
           </Link>
         </div>
 
-        <NavigationMenu className="hidden lg:flex">
+        {/* hidden element */}
+        <NavigationMenu className="hidden ">
           <NavigationMenuList>
             {navItems.map((item) => (
               <NavigationMenuItem key={item.href}>
@@ -70,10 +71,14 @@ export default function UserNavbar() {
         </NavigationMenu>
 
         <div className="flex items-center space-x-2">
-          <Button variant="ghost" size="icon" className="h-9 w-9">
-            <Bell className="h-4 w-4" />
-            <span className="sr-only">Notifications</span>
-          </Button>
+          <Link
+            href={"/home/billing"}
+            className="px-3 py-2 flex items-center space-x-1 text-white bg-transparent hover:bg-zinc-900 rounded-md transition-colors"
+          >
+            <CircleDollarSign className="h-4 w-4" />
+            <span>Billing</span>
+          </Link>
+
           <ClerkLoaded>
             <SignedIn>
               <UserButton afterSignOutUrl="/" />
@@ -81,7 +86,12 @@ export default function UserNavbar() {
           </ClerkLoaded>
           <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-9 w-9 lg:hidden">
+              {/* hidden element */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9 lg:hidden hidden"
+              >
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Open menu</span>
               </Button>
