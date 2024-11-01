@@ -52,7 +52,7 @@ const Navbar = () => {
       </div>
       <div className="flex items-center gap-4">
         <Link
-          href={"/signin"}
+          href={"/sign-in"}
           className=" font-medium flex items-center gap-2 text-sm"
         >
           <ExitIcon className="h-4 w-4 md:block hidden" /> <p>Login</p>
