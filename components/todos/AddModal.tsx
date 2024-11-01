@@ -46,7 +46,7 @@ export default function AddModal({
       setUrl("");
       setTitle("");
       setIsOpen(false);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
     }
   };
@@ -63,7 +63,7 @@ export default function AddModal({
           </DialogTitle>
           <DialogDescription className="text-sm sm:text-base">
             Enter the URL and title for your content. Click add bookmark when
-            you're done.
+            you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">

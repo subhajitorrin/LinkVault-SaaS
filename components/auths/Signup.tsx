@@ -37,9 +37,9 @@ export default function Component() {
       });
       setPendingVerify(true);
       toast.success("Otp sent on your email");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      toast.error(err.errors[0].message);
+      toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
     }
@@ -59,9 +59,9 @@ export default function Component() {
         await setActive({ session: result.createdSessionId });
         router.push("/dashboard");
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      toast.error(err.errors[0].message);
+      toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
     }

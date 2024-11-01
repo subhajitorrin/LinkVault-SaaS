@@ -28,14 +28,12 @@ import UpdateModal from "@/components/todos/UpdateModal";
 import AddModal from "@/components/todos/AddModal";
 
 export default function Component() {
-  const { addTodo, getAllTodos, todos, deleteTodo, user, getUser } =
-    useZustStore();
+  const { getAllTodos, todos, deleteTodo, user, getUser } = useZustStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingAllTodos, setIsLoadingAllTodos] = useState(true);
   const [updateOpen, setUpdateOpen] = useState(-1);
-  const [addOpen, setAddOpen] = useState(false);
+  const [addOpen, setAddOpen] = useState<boolean | null | number>(false);
   const [isLoadingDel, setIsLoadingDel] = useState<boolean>(false);
   const [getDeleteItem, setGetDeleteItem] = useState("");
 
@@ -63,7 +61,7 @@ export default function Component() {
     try {
       setGetDeleteItem(id);
       await deleteTodo(id, setIsLoadingDel);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
     } finally {
       setGetDeleteItem(null);

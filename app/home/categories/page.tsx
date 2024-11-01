@@ -2,7 +2,6 @@
 
 import { BookmarkCheck, Edit, Settings, Tags, Trash2 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -20,14 +19,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 function Component() {
-  const [categories, setCategories] = useState([
+  const categories: {
+    id: number;
+    name: string;
+    count: number;
+    color: string;
+  }[] = [
     { id: 1, name: "Development", count: 45, color: "#0ea5e9" },
     { id: 2, name: "Technology", count: 32, color: "#8b5cf6" },
     { id: 3, name: "Business", count: 28, color: "#22c55e" },
     { id: 4, name: "Design", count: 24, color: "#f59e0b" },
     { id: 5, name: "Marketing", count: 19, color: "#ef4444" },
     { id: 6, name: "Productivity", count: 15, color: "#3b82f6" }
-  ]);
+  ];
 
   return (
     <div className="flex-1 overflow-auto ">

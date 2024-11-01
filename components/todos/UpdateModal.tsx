@@ -52,7 +52,7 @@ export default function UpdateModal({
       setUrl("");
       setTitle("");
       setIsOpen(-1);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.log(error);
     }
   };
@@ -67,7 +67,7 @@ export default function UpdateModal({
             Update Bookmark
           </DialogTitle>
           <DialogDescription className="text-sm sm:text-base">
-            Enter the URL and title for your content. Click update when you're
+            Enter the URL and title for your content. Click update when you&apos;re
             done.
           </DialogDescription>
         </DialogHeader>

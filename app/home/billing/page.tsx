@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,13 +13,25 @@ import { Progress } from "@/components/ui/progress";
 import { CheckCircle2, CircleDollarSign, LoaderCircle } from "lucide-react";
 import useZustStore from "@/store/useZustStore";
 
+interface Plan {
+  name: string;
+  price: string;
+  features: string[];
+}
+
 export default function BillingPage() {
   const { user } = useZustStore();
-  const [currentPlan, setCurrentPlan] = useState("Free");
-  const [daysLeft, setDaysLeft] = useState(0);
-  const [bookmarksLimit, setBookmarksLimit] = useState(5);
+  const [currentPlan, setCurrentPlan] = useState<string>("Free");
+  const [daysLeft, setDaysLeft] = useState<number>(0);
+  const [bookmarksLimit, setBookmarksLimit] = useState<number>(5);
 
-  const plans = [
+  useEffect(() => {
+    setCurrentPlan("Free");
+    setDaysLeft(0);
+    setBookmarksLimit(5);
+  }, []);
+
+  const plans: Plan[] = [
     {
       name: "Free",
       price: "$0.00",

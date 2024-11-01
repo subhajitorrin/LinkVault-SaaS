@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  ExternalLink,
-  Heart,
-  MoreHorizontal,
-  Search,
-  Star
-} from "lucide-react";
+import { ExternalLink, Heart, MoreHorizontal, Star } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -25,7 +19,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -34,6 +27,7 @@ import {
   SelectValue
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
 
 export default function FavoritesComponent() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -121,7 +115,7 @@ export default function FavoritesComponent() {
         {sortedFavorites.map((favorite) => (
           <Card key={favorite.id} className="flex flex-col">
             <CardHeader className="flex flex-row items-center gap-4 space-y-0">
-              <img
+              <Image
                 src={favorite.favicon}
                 alt=""
                 className="w-8 h-8 rounded-full"

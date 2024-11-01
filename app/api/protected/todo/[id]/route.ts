@@ -43,7 +43,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
             },
         })
         return NextResponse.json({ message: "Updated successfully", todo }, { status: 200 });
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Unexpected error:", error);
         return NextResponse.json({ message: "Internal server error" }, { status: 500 });
     }

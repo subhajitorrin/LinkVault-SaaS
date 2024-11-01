@@ -36,9 +36,9 @@ export default function Component() {
         toast.success("Sign in successful");
         router.push("/home");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
-      toast.error(error.errors[0].message);
+      toast.error("Sign in failed");
     } finally {
       setIsLoading(false);
     }
@@ -55,7 +55,7 @@ export default function Component() {
           "https://national-doberman-89.clerk.accounts.dev/v1/oauth_callback",
         redirectUrlComplete: "/home"
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Google Sign In Error:", error);
     } finally {
       setIsLoading(false);
@@ -144,7 +144,7 @@ export default function Component() {
               Sign In with Google
             </Button>
             <p className="text-white text-sm text-center">
-              Don't have an account ?{" "}
+              Don&apos;t have an account ?{" "}
               <Link href="/signup" className="underline">
                 Sign Up
               </Link>
