@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/sheet";
 import useZustStore from "@/store/useZustStore";
 import UpdateModal from "@/components/todos/UpdateModal";
+import AddModal from "@/components/todos/AddModal";
 
 export default function Component() {
   const { addTodo, getAllTodos, todos, deleteTodo } = useZustStore();
@@ -43,6 +44,7 @@ export default function Component() {
   const [isLoadingAllTodos, setIsLoadingAllTodos] = useState(false);
   const [open, setOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
   const [isLoadingDel, setIsLoadingDel] = useState(false);
 
   const bookmarks = [
@@ -163,48 +165,14 @@ export default function Component() {
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              <Sheet open={open} onOpenChange={setOpen}>
-                <SheetTrigger asChild>
-                  <Button className="rounded-[7px]">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add Bookmark
-                  </Button>
-                </SheetTrigger>
-                <SheetContent>
-                  <SheetHeader>
-                    <SheetTitle>Add New Bookmark</SheetTitle>
-                    <SheetDescription>
-                      Add a new URL to your collection
-                    </SheetDescription>
-                  </SheetHeader>
-                  <div className="grid gap-4 py-4">
-                    <Input
-                      onChange={(e) => setEnteredUrl(e.target.value)}
-                      type="url"
-                      placeholder="Enter URL"
-                    />
-                    <Input
-                      onChange={(e) => setEnteredTitle(e.target.value)}
-                      type="text"
-                      placeholder="Title (Optional)"
-                    />
-                    <Button
-                      disabled={isLoading}
-                      onClick={handleAddBookmark}
-                      type="submit"
-                    >
-                      {isLoading ? (
-                        <div className="flex items-center gap-2">
-                          <LoaderCircle className="h-5 w-5 animate-spin" />
-                          Loading...
-                        </div>
-                      ) : (
-                        "Save Bookmark"
-                      )}
-                    </Button>
-                  </div>
-                </SheetContent>
-              </Sheet>
+              <Button
+                onClick={() => setAddOpen(true)}
+                className="rounded-[7px]"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                Add Bookmark
+              </Button>
+              <AddModal isOpen={addOpen} setIsOpen={setAddOpen} />
             </div>
           </div>
           {isLoadingAllTodos ? (
