@@ -197,7 +197,9 @@ export default function Component() {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        {bookmark.link}
+                        {bookmark.link.length > 50
+                          ? bookmark.link.substring(0, 50) + "..."
+                          : bookmark.link}
                       </Link>
                     </div>
                     <div className="flex flex-wrap items-center justify-between text-xs gap-2">
