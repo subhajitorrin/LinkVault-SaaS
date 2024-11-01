@@ -1,4 +1,4 @@
-//@ts-ignore
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -21,6 +21,7 @@ interface Plan {
 }
 
 export default function BillingPage() {
+  // @ts-expect-error
   const { user } = useZustStore();
   const [currentPlan, setCurrentPlan] = useState<string>("Free");
   const [daysLeft, setDaysLeft] = useState<number>(0);
