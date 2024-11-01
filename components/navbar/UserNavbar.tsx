@@ -4,6 +4,7 @@ import {
   Bell,
   BookmarkCheck,
   CircleDollarSign,
+  Menu,
   Plus,
   Search,
   Star,
@@ -23,7 +24,6 @@ import {
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger
@@ -33,92 +33,112 @@ import { ClerkLoaded, ClerkLoading, SignedIn } from "@clerk/clerk-react";
 
 export default function UserNavbar() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navItems = [
+    { href: "/home", icon: BookmarkCheck, label: "All" },
+    { href: "/home/fav", icon: Star, label: "Fav" },
+    { href: "/home/categories", icon: Tags, label: "Categories" },
+    { href: "/home/billing", icon: CircleDollarSign, label: "Billing" }
+  ];
 
   return (
-    <header className="bg-transparent md:px-[5%] sticky top-0 z-50 w-full">
-      <div className=" flex h-14 items-center">
-        <div className="flex items-center space-x-6">
+    <header className="bg-transparent backdrop-blur-xl px-4 md:px-[5%] sticky top-0 z-50 w-full border-b border-gray-900">
+      <div className="flex h-16 items-center justify-between">
+        <div className="flex items-center space-x-4">
           <Link href="/" className="font-semibold text-lg">
             LinksVault
           </Link>
-          <div className="hidden lg:flex lg:w-[300px]">
-            <form className="w-full">
-              {/* hidden element */}
-              <div className="relative hidden">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="search"
-                  placeholder="Search bookmarks..."
-                  className="w-full pl-8 bg-transparent border border-[#3b3b3b]"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-            </form>
-          </div>
+          <form className="hidden md:block">
+            <div className="relative">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Search bookmarks..."
+                className="w-full md:w-[300px] pl-8 bg-transparent border border-gray-700"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+          </form>
         </div>
-        <NavigationMenu className="hidden ml-auto lg:flex">
+
+        <NavigationMenu className="hidden lg:flex">
           <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link
-                  href="/home"
-                  className="px-2 flex items-center space-x-1 text-white bg-transparent"
-                >
-                  <BookmarkCheck className="h-4 w-4" />
-                  <span>All</span>
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                {/* hidden element */}
-                <Link
-                  href="/home/fav"
-                  className="hidden px-2 flex items-center space-x-1 text-white bg-transparent"
-                >
-                  <Star className="h-4 w-4" />
-                  <span>Fav</span>
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                {/* hidden element */}
-                <Link
-                  href="/home/categories"
-                  className="hidden px-2 flex items-center space-x-1 text-white bg-transparent"
-                >
-                  <Tags className="h-4 w-4" />
-                  <span>Categories</span>
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link
-                  href="/home/billing"
-                  className="px-2 mr-4 flex items-center space-x-1 text-white bg-transparent"
-                >
-                  <CircleDollarSign className="h-4 w-4" />
-                  <span>Billing</span>
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
+            {navItems.map((item) => (
+              <NavigationMenuItem key={item.href}>
+                <NavigationMenuLink asChild>
+                  <Link
+                    href={item.href}
+                    className="px-3 py-2 flex items-center space-x-1 text-white bg-transparent hover:bg-gray-800 rounded-md transition-colors"
+                  >
+                    <item.icon className="h-4 w-4" />
+                    <span>{item.label}</span>
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            ))}
           </NavigationMenuList>
         </NavigationMenu>
-        <div className="flex items-center space-x-2 ml-auto lg:ml-0 ">
-          {/* hidden element */}
-          <Button variant="ghost" size="icon" className="hidden h-9 w-9">
+
+        <div className="flex items-center space-x-2">
+          <Button variant="ghost" size="icon" className="h-9 w-9 lg:hidden">
+            <Search className="h-4 w-4" />
+            <span className="sr-only">Search</span>
+          </Button>
+          <Button variant="ghost" size="icon" className="h-9 w-9">
             <Bell className="h-4 w-4" />
             <span className="sr-only">Notifications</span>
           </Button>
           <ClerkLoaded>
             <SignedIn>
-              <UserButton />
+              <UserButton afterSignOutUrl="/" />
             </SignedIn>
           </ClerkLoaded>
+          <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-9 w-9 lg:hidden">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+              <SheetHeader>
+                <SheetTitle>Menu</SheetTitle>
+              </SheetHeader>
+              <nav className="mt-6">
+                <ul className="space-y-4">
+                  {navItems.map((item) => (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        className="flex items-center space-x-2 text-lg hover:text-gray-300 transition-colors"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <item.icon className="h-5 w-5" />
+                        <span>{item.label}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
+      </div>
+      <div className="md:hidden py-2">
+        <form>
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Search bookmarks..."
+              className="w-full pl-8 bg-transparent border border-gray-700"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+        </form>
       </div>
     </header>
   );
