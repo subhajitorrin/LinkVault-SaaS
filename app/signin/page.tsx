@@ -26,12 +26,14 @@ export default function Component() {
     }
     try {
       setIsLoading(true);
-      await signIn.create({
+      const result = await signIn.create({
         identifier: emailAddress,
         password
       });
-      await setActive({ session: signIn.createdSessionId });
-      router.push("/dashboard");
+      if (result.status === "complete") {
+        await setActive({ session: signIn.createdSessionId });
+        router.push("/dashboard");
+      }
     } catch (error: any) {
       console.error(error);
       toast.error(error.errors[0].message);
@@ -39,6 +41,7 @@ export default function Component() {
       setIsLoading(false);
     }
   }
+
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-black">
       <ChevronLeft
