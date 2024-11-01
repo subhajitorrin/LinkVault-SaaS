@@ -10,14 +10,22 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  DialogFooter,
-  DialogTrigger
+  DialogFooter
 } from "@/components/ui/dialog";
-import { ClipboardIcon, SquarePen } from "lucide-react";
+import { ClipboardIcon } from "lucide-react";
+import useZustStore from "@/store/useZustStore";
 
-export default function UpdateModal({ id, isOpen, setIsOpen }) {
-  const [url, setUrl] = useState("");
-  const [title, setTitle] = useState("");
+export default function UpdateModal({
+  prevLink,
+  prevTitle,
+  id,
+  isOpen,
+  setIsOpen
+}) {
+  const { updateTodo } = useZustStore();
+  const [url, setUrl] = useState(prevLink);
+  const [title, setTitle] = useState(prevTitle);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlePaste = async (field: "url" | "title") => {
     try {
@@ -32,10 +40,12 @@ export default function UpdateModal({ id, isOpen, setIsOpen }) {
     }
   };
 
-  const handleUpdate = () => {
-    // Implement your update logic here
-    console.log("Updating with URL:", url, "and Title:", title);
-    // setIsOpen(false);
+  const handleUpdate = async () => {
+    try {
+      await updateTodo(id, url, title, setIsLoading);
+    } catch (error: any) {
+      console.log(error);
+    }
   };
 
   return (
@@ -43,7 +53,7 @@ export default function UpdateModal({ id, isOpen, setIsOpen }) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-semibold">
-            Update Content
+            Update Bookmark
           </DialogTitle>
           <DialogDescription>
             Enter the URL and title for your content. Click update when you're
@@ -67,7 +77,7 @@ export default function UpdateModal({ id, isOpen, setIsOpen }) {
                 type="button"
                 variant="secondary"
                 size="icon"
-                className="rounded-l-none border border-l-0 border-input"
+                className="rounded-l-none border border-l-0 border-input ml-1"
                 onClick={() => handlePaste("url")}
               >
                 <ClipboardIcon className="h-4 w-4" />
@@ -90,7 +100,7 @@ export default function UpdateModal({ id, isOpen, setIsOpen }) {
                 type="button"
                 variant="secondary"
                 size="icon"
-                className="rounded-l-none border border-l-0 border-input"
+                className="rounded-l-none border border-l-0 border-input ml-1"
                 onClick={() => handlePaste("title")}
               >
                 <ClipboardIcon className="h-4 w-4" />

@@ -289,6 +289,8 @@ export default function Component() {
                           <SquarePen className="h-4 w-4 " />
                         </Button>
                         <UpdateModal
+                          prevLink={bookmark.link}
+                          prevTitle={bookmark.title}
                           id={bookmark.id}
                           isOpen={updateOpen}
                           setIsOpen={setUpdateOpen}

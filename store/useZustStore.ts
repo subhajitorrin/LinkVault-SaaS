@@ -67,6 +67,29 @@ const useZustStore = create(
                 } finally {
                     setLoading(false);
                 }
+            },
+            updateTodo: async (
+                id: string,
+                link: string,
+                title: string,
+                setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
+            ) => {
+                try {
+                    setIsLoading(true);
+                    const { data } = await api.put(`/api/protected/todo/${id}`, {
+                        link,
+                        title
+                    });
+                    await get().getAllTodos(setIsLoading);
+                    toast.success("Updated successfully");
+                    return data;
+                } catch (error: any) {
+                    const errorMessage = error.response?.data?.message || error.message;
+                    toast.error(errorMessage);
+                    return error;
+                } finally {
+                    setIsLoading(false);
+                }
             }
         }),
         {
