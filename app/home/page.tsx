@@ -7,6 +7,7 @@ import {
   ExternalLink,
   Grid,
   Home,
+  LoaderCircle,
   MoreHorizontal,
   Plus,
   Search,
@@ -59,6 +60,7 @@ export default function Component() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [enteredUrl, setEnteredUrl] = useState("");
   const [enteredTitle, setEnteredTitle] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const bookmarks = [
     {
@@ -181,8 +183,19 @@ export default function Component() {
                       type="text"
                       placeholder="Title (Optional)"
                     />
-                    <Button onClick={handleAddBookmark} type="submit">
-                      Save Bookmark
+                    <Button
+                      disabled={isLoading}
+                      onClick={handleAddBookmark}
+                      type="submit"
+                    >
+                      {isLoading ? (
+                        <div className="flex items-center gap-2">
+                          <LoaderCircle className="h-5 w-5 animate-spin" />
+                          Loading...
+                        </div>
+                      ) : (
+                        "Save Bookmark"
+                      )}
                     </Button>
                   </div>
                 </SheetContent>
