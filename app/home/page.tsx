@@ -55,7 +55,7 @@ import {
 import useZustStore from "@/store/useZustStore";
 
 export default function Component() {
-  const { addTodo, getAllTodos, todos } = useZustStore();
+  const { addTodo, getAllTodos, todos, deleteTodo } = useZustStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [enteredUrl, setEnteredUrl] = useState("");
@@ -133,6 +133,14 @@ export default function Component() {
       setEnteredUrl("");
       setEnteredTitle("");
       setOpen(false);
+    } catch (err: any) {
+      console.error(err);
+    }
+  }
+
+  async function handleDeleteTodo(id: string) {
+    try {
+      await deleteTodo(id, setIsLoading);
     } catch (err: any) {
       console.error(err);
     }
@@ -267,7 +275,10 @@ export default function Component() {
                           <DropdownMenuItem>Edit</DropdownMenuItem>
                           <DropdownMenuItem>Add to Favorites</DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem className="text-destructive">
+                          <DropdownMenuItem
+                            onClick={() => handleDeleteTodo(bookmark.id)}
+                            className="text-destructive"
+                          >
                             <Trash2 className="mr-2 h-4 w-4" />
                             Delete
                           </DropdownMenuItem>

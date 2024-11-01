@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import axios from "axios";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 
 const BASE_URL = process.env.SERVER_URL;
 const api = axios.create({
     baseURL: BASE_URL,
-    withCredentials: true,
+    withCredentials: true
 });
 
 const useZustStore = create(
@@ -25,7 +25,7 @@ const useZustStore = create(
                 try {
                     const { data } = await api.post("/api/protected/todo", todo);
                     toast.success("Added to your list");
-                    return data
+                    return data;
                 } catch (error: any) {
                     const errorMessage = error.response?.data?.message || error.message;
                     toast.error(errorMessage);
@@ -34,7 +34,9 @@ const useZustStore = create(
                     setLoading(false);
                 }
             },
-            getAllTodos: async (setLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+            getAllTodos: async (
+                setLoading: React.Dispatch<React.SetStateAction<boolean>>
+            ) => {
                 try {
                     setLoading(true);
                     const { data } = await api.get("/api/protected/todo");
@@ -46,14 +48,32 @@ const useZustStore = create(
                 } finally {
                     setLoading(false);
                 }
+            },
+            deleteTodo: async (
+                id: string,
+                setLoading: React.Dispatch<React.SetStateAction<boolean>>
+            ) => {
+                try {
+                    setLoading(true);
+                    const { data } = await api.delete(`/api/protected/todo/${id}`);
+                    await get().getAllTodos(setLoading);
+                    toast.success("Deleted from your list");
+                    return data;
+                } catch (error: any) {
+                    const errorMessage = error.response?.data?.message || error.message;
+                    toast.error(errorMessage);
+                    return error;
+                } finally {
+                    setLoading(false);
+                }
             }
         }),
         {
-            name: "shop-inventory",
+            name: "linkVaultStore",
             partialize: (state) => ({
-                todos: state.todos,
+                todos: state.todos
             }),
-            storage: createJSONStorage(() => sessionStorage),
+            storage: createJSONStorage(() => sessionStorage)
         }
     )
 );
