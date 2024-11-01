@@ -12,6 +12,14 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
         const todo = await prisma.todo.delete({
             where: { id },
         });
+        await prisma.user.update({
+            where: { id: userId },
+            data: {
+                credit: {
+                    increment: 1,
+                },
+            },
+        });
         return NextResponse.json({ todo }, { status: 200 });
     } catch (error) {
         console.error("Unexpected error:", error);
