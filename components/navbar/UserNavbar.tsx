@@ -29,14 +29,14 @@ import {
   SheetTrigger
 } from "@/components/ui/sheet";
 import { UserButton } from "@clerk/nextjs";
-import { SignedIn } from "@clerk/clerk-react";
+import { ClerkLoaded, ClerkLoading, SignedIn } from "@clerk/clerk-react";
 
 export default function UserNavbar() {
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <header className="bg-transparent md:px-[5%] sticky top-0 z-50 w-full ">
-      <div className="container flex h-14 items-center">
+    <header className="bg-transparent md:px-[5%] sticky top-0 z-50 w-full">
+      <div className=" flex h-14 items-center">
         <div className="flex items-center space-x-6">
           <Link href="/" className="font-semibold text-lg">
             LinksVault
@@ -104,18 +104,19 @@ export default function UserNavbar() {
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
-        <div className="flex items-center space-x-2 ml-auto lg:ml-0">
+        <div className="flex items-center space-x-2 ml-auto lg:ml-0 ">
           <Button variant="ghost" size="icon" className="h-9 w-9">
             <Bell className="h-4 w-4" />
             <span className="sr-only">Notifications</span>
           </Button>
-          {/* user button */}
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+          <ClerkLoaded>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </ClerkLoaded>
         </div>
       </div>
-      <div className="container flex lg:hidden py-2">
+      {/* <div className="container flex lg:hidden py-2">
         <form className="w-full">
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -128,7 +129,7 @@ export default function UserNavbar() {
             />
           </div>
         </form>
-      </div>
+      </div> */}
     </header>
   );
 }
