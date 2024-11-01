@@ -20,6 +20,7 @@ model User {
   isSubscribed    Boolean   @default(false)
   subscriptionEnd DateTime?
   todo            Todo[]
+  credit          Int       @default(5)
 }
 
 model Todo {
