@@ -32,7 +32,8 @@ export default function Component() {
       });
       if (result.status === "complete") {
         await setActive({ session: signIn.createdSessionId });
-        router.push("/dashboard");
+        toast.success("Sign in successful");
+        router.push("/home");
       }
     } catch (error: any) {
       console.error(error);

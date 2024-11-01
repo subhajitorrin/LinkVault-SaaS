@@ -20,6 +20,8 @@ import {
   SheetTitle,
   SheetTrigger
 } from "@/components/ui/sheet";
+import { UserButton } from "@clerk/nextjs";
+import { SignedIn } from "@clerk/clerk-react";
 
 export default function UserNavbar() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -74,7 +76,7 @@ export default function UserNavbar() {
               <NavigationMenuLink asChild>
                 <Link
                   href="/home/categories"
-                  className="px-2 mr-8 flex items-center space-x-1 text-white bg-transparent"
+                  className="px-2 mr-4 flex items-center space-x-1 text-white bg-transparent"
                 >
                   <Tags className="h-4 w-4" />
                   <span>Categories</span>
@@ -88,6 +90,10 @@ export default function UserNavbar() {
             <Bell className="h-4 w-4" />
             <span className="sr-only">Notifications</span>
           </Button>
+          {/* user button */}
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
       </div>
       <div className="container flex lg:hidden py-2">
