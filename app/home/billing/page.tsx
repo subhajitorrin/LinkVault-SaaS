@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +13,6 @@ import { Progress } from "@/components/ui/progress";
 import {
   CheckCircle2,
   CircleDollarSign,
-  HelpCircle,
   LoaderCircle
 } from "lucide-react";
 import useZustStore from "@/store/useZustStore";
@@ -51,7 +51,7 @@ export default function BillingPage() {
 
   if (!user) {
     return (
-      <div className="flex items-center justify-center mt-[5%] text-base text-zinc-500 gap-2">
+      <div className="flex items-center justify-center h-screen text-base text-zinc-500 gap-2">
         <LoaderCircle className="h-5 w-5 animate-spin" />
         <p>Loading...</p>
       </div>
@@ -59,19 +59,19 @@ export default function BillingPage() {
   }
 
   return (
-    <div className="min-h-screenk text-gray-100">
-      <div className="py-6">
-        <div className="flex items-center space-x-2">
-          <CircleDollarSign className="h-4 w-4" />
-          <h2 className="text-lg font-semibold">Billing</h2>
+    <div className="min-h-screen text-gray-100 px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex items-center space-x-2 mb-6">
+          <CircleDollarSign className="h-6 w-6 sm:h-8 sm:w-8" />
+          <h2 className="text-xl sm:text-2xl font-semibold">Billing</h2>
         </div>
 
-        <Card className="mb-8 bg-zinc-900 border-zinc-800 mt-4">
+        <Card className="mb-8 bg-zinc-900 border-zinc-800">
           <CardHeader>
-            <CardTitle className="text-white">
+            <CardTitle className="text-white text-lg sm:text-xl">
               Current Plan: {currentPlan}
             </CardTitle>
-            <CardDescription className="text-gray-400">
+            <CardDescription className="text-gray-400 text-sm sm:text-base">
               Your subscription renews on{" "}
               {new Date(
                 Date.now() + daysLeft * 24 * 60 * 60 * 1000
@@ -79,7 +79,7 @@ export default function BillingPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div>
                 <div className="flex justify-between mb-2">
                   <span className="text-sm font-medium text-gray-300">
@@ -91,7 +91,7 @@ export default function BillingPage() {
                 </div>
                 <Progress
                   value={((30 - daysLeft) / 30) * 100}
-                  className="w-full h-1 bg-white hidden md:block"
+                  className="w-full h-2 bg-zinc-700"
                 />
               </div>
               <div>
@@ -103,20 +103,18 @@ export default function BillingPage() {
                     {bookmarksLimit - user.credit} / {bookmarksLimit}
                   </span>
                 </div>
-                <div className="bg-zinc-950 md:w-[200px]  flex float-right relative">
-                  <Progress
-                    value={
-                      ((bookmarksLimit - user.credit) / bookmarksLimit) * 100
-                    }
-                    className="w-full h-1 bg-white hidden md:block"
-                  />
-                </div>
+                <Progress
+                  value={
+                    ((bookmarksLimit - user.credit) / bookmarksLimit) * 100
+                  }
+                  className="w-full h-2 bg-zinc-700"
+                />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {plans.map((plan) => (
             <Card
               key={plan.name}
@@ -128,28 +126,28 @@ export default function BillingPage() {
             >
               {plan.name === currentPlan && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="bg-zinc-700 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  <span className="bg-zinc-700 text-white px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
                     Current Plan
                   </span>
                 </div>
               )}
               <CardHeader>
-                <CardTitle className="text-white">{plan.name}</CardTitle>
-                <CardDescription className="text-gray-400">
+                <CardTitle className="text-white text-lg sm:text-xl">{plan.name}</CardTitle>
+                <CardDescription className="text-gray-400 text-sm sm:text-base">
                   {plan.price} / month
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col h-full">
                 <ul className="space-y-2 flex-grow mb-6">
                   {plan.features.map((feature, index) => (
-                    <li key={index} className="flex items-center text-gray-300">
+                    <li key={index} className="flex items-center text-gray-300 text-sm sm:text-base">
                       <CheckCircle2 className="h-5 w-5 text-green-600 mr-2 flex-shrink-0" />
                       <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
                 <Button
-                  className="w-full bg-zinc-900 hover:opacity-90 transition-all ease-linear duration-200 text-white border border-[#393939]"
+                  className="w-full bg-zinc-900 hover:opacity-90 transition-all ease-linear duration-200 text-white border border-[#393939] text-sm sm:text-base"
                   variant={plan.name === currentPlan ? "outline" : "default"}
                   disabled={plan.name === currentPlan}
                 >
