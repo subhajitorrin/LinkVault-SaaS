@@ -20,23 +20,17 @@ export default function BillingPage() {
   const plans = [
     {
       name: "Basic",
-      price: "$9.99",
-      features: [
-        "100 bookmarks per month",
-        "Basic tag organization",
-        "Web browser extension"
-      ],
+      price: "$3.00",
+      features: ["10 bookmarks per month", "Basic tag organization"],
       cta: "Downgrade"
     },
     {
       name: "Pro",
-      price: "$19.99",
+      price: "$7.00",
       features: [
-        "1,000 bookmarks per month",
+        "40 bookmarks per month",
         "Advanced tag management",
-        "Web browser extension",
-        "Mobile app access",
-        "Priority support"
+        "Web browser extension"
       ],
       cta: "Current Plan"
     },
@@ -46,12 +40,7 @@ export default function BillingPage() {
       features: [
         "Unlimited bookmarks",
         "Advanced tag management",
-        "Web browser extension",
-        "Mobile app access",
-        "Priority support",
-        "Team collaboration",
-        "API access",
-        "Custom integrations"
+        "Web browser extension"
       ],
       cta: "Upgrade"
     }
@@ -90,7 +79,7 @@ export default function BillingPage() {
                 </div>
                 <Progress
                   value={((30 - daysLeft) / 30) * 100}
-                  className="w-full h-1 bg-zinc-800"
+                  className="w-full h-1 bg-white"
                 />
               </div>
               <div>
@@ -104,7 +93,7 @@ export default function BillingPage() {
                 </div>
                 <Progress
                   value={(bookmarksUsed / bookmarksLimit) * 100}
-                  className="w-full h-1 bg-zinc-800"
+                  className="w-full h-1 bg-white"
                 />
               </div>
             </div>
@@ -144,7 +133,7 @@ export default function BillingPage() {
                   ))}
                 </ul>
                 <Button
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white"
+                  className="w-full bg-zinc-900 hover:opacity-90 transition-all ease-linear duration-200 text-white border border-[#393939]"
                   variant={plan.name === currentPlan ? "outline" : "default"}
                   disabled={plan.name === currentPlan}
                 >
