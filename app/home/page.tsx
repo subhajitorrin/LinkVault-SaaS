@@ -6,12 +6,14 @@ import {
   BookmarkCheck,
   ExternalLink,
   Grid,
+  Heart,
   Home,
   LoaderCircle,
   MoreHorizontal,
   Plus,
   Search,
   Settings,
+  SquarePen,
   Star,
   Tags,
   Trash2
@@ -53,6 +55,7 @@ import {
   SheetTrigger
 } from "@/components/ui/sheet";
 import useZustStore from "@/store/useZustStore";
+import UpdateModal from "@/components/todos/UpdateModal";
 
 export default function Component() {
   const { addTodo, getAllTodos, todos, deleteTodo } = useZustStore();
@@ -63,6 +66,7 @@ export default function Component() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLoadingAllTodos, setIsLoadingAllTodos] = useState(false);
   const [open, setOpen] = useState(false);
+  const [updateOpen, setUpdateOpen] = useState(false);
 
   const bookmarks = [
     {
@@ -253,7 +257,7 @@ export default function Component() {
                         </Link>
                       </div>
                       <div className="flex items-center gap-1 flex-shrink-0">
-                        <Button
+                        {/* <Button
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 text-zinc-400"
@@ -267,33 +271,36 @@ export default function Component() {
                             <ExternalLink className="h-4 w-4" />
                             <span className="sr-only">Open link</span>
                           </Link>
+                        </Button> */}
+
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-zinc-400 "
+                        >
+                          <Heart className="h-4 w-4" />
                         </Button>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8 text-zinc-400 "
-                            >
-                              <MoreHorizontal className="h-4 w-4" />
-                              <span className="sr-only">Open menu</span>
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="w-48">
-                            <DropdownMenuItem>Edit</DropdownMenuItem>
-                            <DropdownMenuItem>
-                              Add to Favorites
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              onClick={() => handleDeleteTodo(bookmark.id)}
-                              className="text-destructive"
-                            >
-                              <Trash2 className="mr-2 h-4 w-4" />
-                              Delete
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-zinc-400 "
+                          onClick={() => setUpdateOpen(true)}
+                        >
+                          <SquarePen className="h-4 w-4 " />
+                        </Button>
+                        <UpdateModal
+                          id={bookmark.id}
+                          isOpen={updateOpen}
+                          setIsOpen={setUpdateOpen}
+                        />
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-zinc-400 "
+                          onClick={() => handleDeleteTodo(bookmark.id)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
                       </div>
                     </div>
                     <div className="flex items-center justify-between text-xs">
