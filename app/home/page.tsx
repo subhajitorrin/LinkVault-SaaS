@@ -242,37 +242,12 @@ export default function Component() {
                   className="group relative overflow-hidden border border-zinc-800 bg-zinc-900 hover:border-zinc-700 transition-all duration-200"
                 >
                   <CardContent className="p-4 space-y-4">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="min-w-0 flex-1">
-                        <h3 className="font-medium text-sm text-zinc-100 leading-none mb-2">
-                          {bookmark.title}
-                        </h3>
-                        <Link
-                          href={bookmark.link}
-                          className="text-xs text-zinc-400 hover:text-zinc-300 truncate block"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {bookmark.link}
-                        </Link>
-                      </div>
-                      <div className="flex items-center gap-1 flex-shrink-0">
-                        {/* <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-zinc-400"
-                          asChild
-                        >
-                          <Link
-                            href={bookmark.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <ExternalLink className="h-4 w-4" />
-                            <span className="sr-only">Open link</span>
-                          </Link>
-                        </Button> */}
+                    <div className=" flex justify-between items-center">
+                      <h3 className="font-medium text-sm text-zinc-100 leading-none">
+                        {bookmark.title}
+                      </h3>
 
+                      <div className="flex items-center gap-1 flex-shrink-0">
                         <Button
                           variant="ghost"
                           size="icon"
@@ -305,6 +280,18 @@ export default function Component() {
                         </Button>
                       </div>
                     </div>
+
+                    <div className="">
+                      <Link
+                        href={bookmark.link}
+                        className="text-xs text-zinc-400 hover:text-zinc-300 truncate block"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {bookmark.link}
+                      </Link>
+                    </div>
+
                     <div className="flex items-center justify-between text-xs">
                       <span className="text-zinc-500">
                         {new Date(bookmark.createdAt).toLocaleDateString(
