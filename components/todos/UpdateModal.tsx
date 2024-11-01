@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
 import { useState } from "react";
@@ -28,6 +29,7 @@ export default function UpdateModal({
   isOpen: number;
   setIsOpen: (isOpen: number) => void;
 }) {
+  //@ts-ignore
   const { updateTodo } = useZustStore();
   const [url, setUrl] = useState(prevLink || "");
   const [title, setTitle] = useState(prevTitle || "");
