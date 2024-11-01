@@ -67,6 +67,7 @@ export default function Component() {
   const [isLoadingAllTodos, setIsLoadingAllTodos] = useState(false);
   const [open, setOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(false);
+  const [isLoadingDel, setIsLoadingDel] = useState(false);
 
   const bookmarks = [
     {
@@ -144,7 +145,7 @@ export default function Component() {
 
   async function handleDeleteTodo(id: string) {
     try {
-      await deleteTodo(id, setIsLoading);
+      await deleteTodo(id, setIsLoadingDel);
     } catch (err: any) {
       console.error(err);
     }
@@ -271,12 +272,17 @@ export default function Component() {
                           setIsOpen={setUpdateOpen}
                         />
                         <Button
+                          disabled={isLoadingDel}
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 text-zinc-400 "
                           onClick={() => handleDeleteTodo(bookmark.id)}
                         >
-                          <Trash2 className="h-4 w-4" />
+                          {isLoadingDel ? (
+                            <LoaderCircle className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Trash2 className="h-4 w-4" />
+                          )}
                         </Button>
                       </div>
                     </div>
