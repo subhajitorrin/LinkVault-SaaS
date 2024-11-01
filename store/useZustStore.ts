@@ -95,7 +95,6 @@ const useZustStore = create(
         {
             name: "linkVaultStore",
             partialize: (state) => ({
-                todos: state.todos
             }),
             storage: createJSONStorage(() => sessionStorage)
         }

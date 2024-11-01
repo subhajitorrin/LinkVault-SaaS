@@ -1,40 +1,17 @@
 "use client";
 
 import {
-  Bell,
-  Bookmark,
   BookmarkCheck,
-  ExternalLink,
-  Grid,
   Heart,
-  Home,
   LoaderCircle,
-  MoreHorizontal,
   Plus,
-  Search,
-  Settings,
   SquarePen,
-  Star,
-  Tags,
   Trash2
 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader
-} from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -45,7 +22,6 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
   SheetContent,
@@ -152,7 +128,10 @@ export default function Component() {
   }
 
   useEffect(() => {
-    getAllTodos(setIsLoadingAllTodos);
+    async function fetchAllTodos() {
+      await getAllTodos(setIsLoadingAllTodos);
+    }
+    fetchAllTodos();
   }, [getAllTodos]);
 
   return (
@@ -228,7 +207,12 @@ export default function Component() {
               </Sheet>
             </div>
           </div>
-          {todos.length === 0 ? (
+          {isLoadingAllTodos ? (
+            <div className="flex items-center justify-center mt-[5%] text-base text-zinc-500 gap-2">
+              <LoaderCircle className="h-5 w-5 animate-spin" />
+              <p>Loading...</p>
+            </div>
+          ) : todos.length === 0 ? (
             <div className="h-full w-full flex justify-center mt-[30vh]">
               <p className="text-zinc-400 text-sm font-medium text-center">
                 No bookmarks found
@@ -302,9 +286,23 @@ export default function Component() {
                       <span className="text-zinc-500">
                         {new Date(bookmark.createdAt).toLocaleDateString(
                           "en-US",
-                          { day: "numeric", month: "short", year: "numeric" }
+                          {
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric"
+                          }
+                        )}
+                        &nbsp;•&nbsp;
+                        {new Date(bookmark.createdAt).toLocaleTimeString(
+                          "en-US",
+                          {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true
+                          }
                         )}
                       </span>
+
                       <span className="inline-flex items-center rounded-full bg-zinc-800/50 px-2 py-1 text-xs font-medium text-zinc-300 ring-1 ring-inset ring-zinc-700/50">
                         {bookmark.category ? bookmark.category : "Nothing"}
                       </span>
