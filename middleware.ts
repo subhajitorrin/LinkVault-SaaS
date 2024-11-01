@@ -3,10 +3,15 @@ import { NextResponse } from 'next/server';
 
 const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)', "/"])
 const isProtectedRoute = createRouteMatcher(['/home(.*)'])
+const isApiRoutes = createRouteMatcher(['/api(.*)'])
 
 export default clerkMiddleware(async (auth, request) => {
+
   const { userId } = await auth()
 
+  if (isApiRoutes(request)) {
+    return NextResponse.next();
+  }
   if (!isProtectedRoute(request) && userId) {
     return NextResponse.redirect(new URL('/home', request.url));
   }
