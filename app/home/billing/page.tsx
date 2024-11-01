@@ -21,7 +21,7 @@ interface Plan {
 }
 
 export default function BillingPage() {
-  // @ts-expect-error
+  // @ts-ignore
   const { user } = useZustStore();
   const [currentPlan, setCurrentPlan] = useState<string>("Free");
   const [daysLeft, setDaysLeft] = useState<number>(0);
