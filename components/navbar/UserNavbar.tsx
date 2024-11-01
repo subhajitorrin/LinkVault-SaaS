@@ -43,7 +43,8 @@ export default function UserNavbar() {
           </Link>
           <div className="hidden lg:flex lg:w-[300px]">
             <form className="w-full">
-              <div className="relative">
+              {/* hidden element */}
+              <div className="relative hidden">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
                   type="search"
@@ -71,9 +72,10 @@ export default function UserNavbar() {
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
+                {/* hidden element */}
                 <Link
                   href="/home/fav"
-                  className="px-2 flex items-center space-x-1 text-white bg-transparent"
+                  className="hidden px-2 flex items-center space-x-1 text-white bg-transparent"
                 >
                   <Star className="h-4 w-4" />
                   <span>Fav</span>
@@ -82,9 +84,10 @@ export default function UserNavbar() {
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
+                {/* hidden element */}
                 <Link
                   href="/home/categories"
-                  className="px-2 flex items-center space-x-1 text-white bg-transparent"
+                  className="hidden px-2 flex items-center space-x-1 text-white bg-transparent"
                 >
                   <Tags className="h-4 w-4" />
                   <span>Categories</span>
@@ -105,7 +108,8 @@ export default function UserNavbar() {
           </NavigationMenuList>
         </NavigationMenu>
         <div className="flex items-center space-x-2 ml-auto lg:ml-0 ">
-          <Button variant="ghost" size="icon" className="h-9 w-9">
+          {/* hidden element */}
+          <Button variant="ghost" size="icon" className="hidden h-9 w-9">
             <Bell className="h-4 w-4" />
             <span className="sr-only">Notifications</span>
           </Button>
@@ -116,20 +120,6 @@ export default function UserNavbar() {
           </ClerkLoaded>
         </div>
       </div>
-      {/* <div className="container flex lg:hidden py-2">
-        <form className="w-full">
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search bookmarks..."
-              className="w-full pl-8 bg-muted"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-        </form>
-      </div> */}
     </header>
   );
 }
