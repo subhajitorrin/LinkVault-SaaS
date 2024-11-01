@@ -240,7 +240,7 @@ export default function Component() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-zinc-400 hover:text-zinc-100"
+                        className="h-8 w-8 text-zinc-400"
                         asChild
                       >
                         <Link
@@ -257,7 +257,7 @@ export default function Component() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 text-zinc-400 hover:text-zinc-100"
+                            className="h-8 w-8 text-zinc-400 "
                           >
                             <MoreHorizontal className="h-4 w-4" />
                             <span className="sr-only">Open menu</span>
