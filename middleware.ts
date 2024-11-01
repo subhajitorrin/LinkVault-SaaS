@@ -5,9 +5,7 @@ const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)', "/"])
 const isProtectedRoute = createRouteMatcher(['/home(.*)'])
 
 export default clerkMiddleware(async (auth, request) => {
-  console.log("----------------------------------------");
   const { userId } = await auth()
-  console.log(userId);
 
   if (!isProtectedRoute(request) && userId) {
     return NextResponse.redirect(new URL('/home', request.url));

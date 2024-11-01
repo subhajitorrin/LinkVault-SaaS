@@ -15,18 +15,18 @@ datasource db {
 
 model User {
   id              String    @id
-  email           String    @unique
   isSubscribed    Boolean   @default(false)
   subscriptionEnd DateTime?
   todo            Todo[]
 }
 
 model Todo {
-  id          String   @id @default(cuid())
-  title       String
-  isCompleted Boolean  @default(false)
-  use         User     @relation(fields: [userId], references: [id])
-  userId      String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  title     String
+  link      String
+  tags      String[]
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
