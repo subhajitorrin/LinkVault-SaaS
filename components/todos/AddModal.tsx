@@ -53,7 +53,7 @@ export default function AddModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="w-[90vw] max-w-[425px] sm:w-full">
+      <DialogContent className="w-[90vw] max-w-[425px] sm:w-full bg-zinc-900 text-white border border-zinc-800 rounded-xl">
         <DialogHeader>
           <DialogTitle className="text-xl sm:text-2xl font-semibold">
             Add Bookmark
@@ -74,7 +74,7 @@ export default function AddModal({
                 id="url"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
-                className="flex-grow sm:rounded-r-none"
+                className="flex-grow sm:rounded-r-none border border-zinc-700"
                 placeholder="https://example.com"
               />
               <Button
@@ -82,7 +82,7 @@ export default function AddModal({
                 type="button"
                 variant="secondary"
                 size="icon"
-                className="w-full sm:w-auto sm:rounded-l-none sm:border sm:border-l-0 sm:border-input"
+                className=" bg-zinc-800 text-white md:border md:px-2 md:border-zinc-700 w-full hover:bg-zinc-none  sm:w-auto sm:rounded-l-none sm:border sm:border-l-0 sm:border-input"
                 onClick={() => handlePaste("url")}
               >
                 <ClipboardIcon className="h-4 w-4 mr-2 sm:mr-0" />
@@ -100,7 +100,7 @@ export default function AddModal({
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="flex-grow sm:rounded-r-none"
+                className="flex-grow sm:rounded-r-none border border-zinc-700"
                 placeholder="Enter content title"
               />
               <Button
@@ -108,7 +108,7 @@ export default function AddModal({
                 type="button"
                 variant="secondary"
                 size="icon"
-                className="w-full sm:w-auto sm:rounded-l-none sm:border sm:border-l-0 sm:border-input"
+                className="bg-zinc-800 text-white md:border md:px-2 md:border-zinc-700 hover:bg-zinc-none w-full sm:w-auto sm:rounded-l-none sm:border sm:border-l-0 sm:border-input"
                 onClick={() => handlePaste("title")}
               >
                 <ClipboardIcon className="h-4 w-4 mr-2 sm:mr-0" />
@@ -121,7 +121,7 @@ export default function AddModal({
           <Button
             type="button"
             onClick={handleAdd}
-            className="w-full"
+            className="w-full bg-zinc-800 text-white"
             disabled={isLoading}
           >
             {isLoading ? (
