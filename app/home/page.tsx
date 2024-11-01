@@ -12,7 +12,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -22,26 +21,19 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger
-} from "@/components/ui/sheet";
 import useZustStore from "@/store/useZustStore";
 import UpdateModal from "@/components/todos/UpdateModal";
 import AddModal from "@/components/todos/AddModal";
 
 export default function Component() {
-  const { addTodo, getAllTodos, todos, deleteTodo } = useZustStore();
+  const { addTodo, getAllTodos, todos, deleteTodo, user, getUser } =
+    useZustStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [enteredUrl, setEnteredUrl] = useState("");
   const [enteredTitle, setEnteredTitle] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isLoadingAllTodos, setIsLoadingAllTodos] = useState(false);
+  const [isLoadingAllTodos, setIsLoadingAllTodos] = useState(true);
   const [open, setOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(-1);
   const [addOpen, setAddOpen] = useState(false);
@@ -136,6 +128,10 @@ export default function Component() {
     fetchAllTodos();
   }, [getAllTodos]);
 
+  useEffect(() => {
+    getUser();
+  }, [getUser]);
+
   return (
     <main className=" flex-1 flex flex-col h-full overflow-hidden">
       {/* Bookmarks Content */}
@@ -165,12 +161,20 @@ export default function Component() {
                   </SelectGroup>
                 </SelectContent>
               </Select>
+
               <Button
+                disabled={!user || user.credit === 0}
                 onClick={() => setAddOpen(true)}
                 className="rounded-[7px]"
               >
-                <Plus className="h-4 w-4 mr-2" />
-                Add Bookmark
+                {user && user.credit > 0 ? (
+                  <>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Bookmark
+                  </>
+                ) : (
+                  <p className="text-center">No credit left</p>
+                )}
               </Button>
               <AddModal isOpen={addOpen} setIsOpen={setAddOpen} />
             </div>
@@ -188,7 +192,8 @@ export default function Component() {
             </div>
           ) : null}
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {todos.length > 0 &&
+            {!isLoadingAllTodos &&
+              todos.length > 0 &&
               todos.map((bookmark, index) => (
                 <Card
                   key={index}

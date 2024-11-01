@@ -12,6 +12,7 @@ const api = axios.create({
 const useZustStore = create(
     persist(
         (set, get) => ({
+            user: null,
             todos: [],
             addTodo: async (
                 todo: { url: string; title: string },
@@ -25,6 +26,7 @@ const useZustStore = create(
                 try {
                     const { data } = await api.post("/api/protected/todo", todo);
                     await get().getAllTodos(setLoading);
+                    await get().getUser();
                     toast.success("Added to your list");
                     return data;
                 } catch (error: any) {
@@ -57,6 +59,7 @@ const useZustStore = create(
                 try {
                     setLoading(true);
                     const { data } = await api.delete(`/api/protected/todo/${id}`);
+                    await get().getUser();
                     await get().getAllTodos(setLoading);
                     toast.success("Deleted from your list");
                     return data;
@@ -90,11 +93,22 @@ const useZustStore = create(
                 } finally {
                     setIsLoading(false);
                 }
+            },
+            getUser: async () => {
+                try {
+                    const { data } = await api.get("/api/protected/user");
+                    set({ user: data.user });
+                } catch (error: any) {
+                    const errorMessage = error.response?.data?.message || error.message;
+                    toast.error(errorMessage);
+                    return error;
+                }
             }
         }),
         {
             name: "linkVaultStore",
             partialize: (state) => ({
+                user: state.user
             }),
             storage: createJSONStorage(() => sessionStorage)
         }
