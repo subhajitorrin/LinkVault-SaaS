@@ -16,7 +16,7 @@ import {
   Trash2
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -51,10 +51,14 @@ import {
   SheetTitle,
   SheetTrigger
 } from "@/components/ui/sheet";
+import useZustStore from "@/store/useZustStore";
 
 export default function Component() {
+  const { addTodo } = useZustStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [enteredUrl, setEnteredUrl] = useState("");
+  const [enteredTitle, setEnteredTitle] = useState("");
 
   const bookmarks = [
     {
@@ -118,6 +122,11 @@ export default function Component() {
     return matchesSearch && matchesCategory;
   });
 
+  async function handleAddBookmark(e: React.FormEvent) {
+    e.preventDefault();
+    await addTodo({ url: enteredUrl, title: enteredTitle });
+  }
+
   return (
     <main className=" flex-1 flex flex-col h-full overflow-hidden">
       {/* Bookmarks Content */}
@@ -162,9 +171,19 @@ export default function Component() {
                     </SheetDescription>
                   </SheetHeader>
                   <div className="grid gap-4 py-4">
-                    <Input type="url" placeholder="Enter URL" />
-                    <Input type="text" placeholder="Title (Optional)" />
-                    <Button type="submit">Save Bookmark</Button>
+                    <Input
+                      onChange={(e) => setEnteredUrl(e.target.value)}
+                      type="url"
+                      placeholder="Enter URL"
+                    />
+                    <Input
+                      onChange={(e) => setEnteredTitle(e.target.value)}
+                      type="text"
+                      placeholder="Title (Optional)"
+                    />
+                    <Button onClick={handleAddBookmark} type="submit">
+                      Save Bookmark
+                    </Button>
                   </div>
                 </SheetContent>
               </Sheet>
