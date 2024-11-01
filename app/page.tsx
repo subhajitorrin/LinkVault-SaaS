@@ -92,8 +92,10 @@ const LandingPage = () => {
     <>
       <Navbar />
       <div className="min-h-screen text-white px-[5%] md:px-[10%]">
+
+        <div className="absolute top-[-10px]" id="home"> </div>
         {/* herosection */}
-        <section className="mt-16" id="home">
+        <section className="mt-16" >
           <h1 className="md:text-center text-start text-gradient leading-tight md:text-7xl text-3xl font-semibold">
             Streamline Your Links
           </h1>
