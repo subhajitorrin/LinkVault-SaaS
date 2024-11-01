@@ -12,7 +12,7 @@ import {
   DialogDescription,
   DialogFooter
 } from "@/components/ui/dialog";
-import { ClipboardIcon } from "lucide-react";
+import { ClipboardIcon, LoaderCircle } from "lucide-react";
 import useZustStore from "@/store/useZustStore";
 
 export default function UpdateModal({
@@ -23,8 +23,8 @@ export default function UpdateModal({
   setIsOpen
 }) {
   const { updateTodo } = useZustStore();
-  const [url, setUrl] = useState(prevLink);
-  const [title, setTitle] = useState(prevTitle);
+  const [url, setUrl] = useState(prevLink || "");
+  const [title, setTitle] = useState(prevTitle || "");
   const [isLoading, setIsLoading] = useState(false);
 
   const handlePaste = async (field: "url" | "title") => {
@@ -43,6 +43,9 @@ export default function UpdateModal({
   const handleUpdate = async () => {
     try {
       await updateTodo(id, url, title, setIsLoading);
+      setUrl("");
+      setTitle("");
+      setIsOpen(false);
     } catch (error: any) {
       console.log(error);
     }
@@ -67,6 +70,7 @@ export default function UpdateModal({
             </Label>
             <div className="flex">
               <Input
+                disabled={isLoading}
                 id="url"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
@@ -74,6 +78,7 @@ export default function UpdateModal({
                 placeholder="https://example.com"
               />
               <Button
+                disabled={isLoading}
                 type="button"
                 variant="secondary"
                 size="icon"
@@ -90,6 +95,7 @@ export default function UpdateModal({
             </Label>
             <div className="flex">
               <Input
+                disabled={isLoading}
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -97,6 +103,7 @@ export default function UpdateModal({
                 placeholder="Enter content title"
               />
               <Button
+                disabled={isLoading}
                 type="button"
                 variant="secondary"
                 size="icon"
@@ -113,8 +120,16 @@ export default function UpdateModal({
             type="button"
             onClick={handleUpdate}
             className="w-full sm:w-auto"
+            disabled={isLoading}
           >
-            Update Content
+            {isLoading ? (
+              <div className="flex items-center gap-2">
+                <LoaderCircle className="h-5 w-5 animate-spin" />
+                Updating...
+              </div>
+            ) : (
+              "Update Bookmark"
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>
