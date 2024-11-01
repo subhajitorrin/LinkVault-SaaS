@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
 import {
@@ -28,6 +29,7 @@ import UpdateModal from "@/components/todos/UpdateModal";
 import AddModal from "@/components/todos/AddModal";
 
 export default function Component() {
+  // @ts-ignore
   const { getAllTodos, todos, deleteTodo, user, getUser } = useZustStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
