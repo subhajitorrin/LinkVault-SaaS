@@ -34,18 +34,21 @@ const LandingPage = () => {
             </Link>
           </div>
 
-          <div className="relative py-20">
-            <div className="w-full h-3/6 absolute rounded-[50%] radial--blur opacity-40 mx-10" />
+          <div className="relative md:py-20 mt-8">
+            <div className="w-full h-3/6 absolute rounded-[50%] radial--blur opacity-60 mx-10" />
             <div className="w-full aspect-video relative">
               <Image
                 priority
-                src="/dashboard-snippet.png"
-                className="opacity-[0.95]"
+                src="/dashimg.png"
+                className="opacity-[0.95] rounded-lg"
                 alt="snippet"
                 sizes="100vw"
                 fill
                 objectFit="contain"
               />
+              <div className="w-full h-[30%] bg-black z-10 absolute bottom-[-30%] blur-3xl"></div>
+              <div className="w-[10%] h-full bg-black z-10 absolute left-[-10%] blur-2xl"></div>
+              <div className="w-[10%] h-full bg-black z-10 absolute right-[-10%] blur-2xl"></div>
             </div>
           </div>
         </section>
