@@ -15,7 +15,13 @@ import {
 import { ClipboardIcon, LoaderCircle } from "lucide-react";
 import useZustStore from "@/store/useZustStore";
 
-export default function AddModal({ isOpen, setIsOpen }) {
+export default function AddModal({
+  isOpen,
+  setIsOpen
+}: {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+}) {
   const { addTodo } = useZustStore();
   const [url, setUrl] = useState("");
   const [title, setTitle] = useState("");
@@ -47,28 +53,28 @@ export default function AddModal({ isOpen, setIsOpen }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="w-[90vw] max-w-[425px] sm:w-full">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-semibold">
+          <DialogTitle className="text-xl sm:text-2xl font-semibold">
             Add Bookmark
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-sm sm:text-base">
             Enter the URL and title for your content. Click add bookmark when
             you're done.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-6 py-4">
+        <div className="grid gap-4 py-4">
           <div className="space-y-2">
             <Label htmlFor="url" className="text-sm font-medium">
               URL
             </Label>
-            <div className="flex">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-0">
               <Input
                 disabled={isLoading}
                 id="url"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
-                className="flex-grow rounded-r-none"
+                className="flex-grow sm:rounded-r-none"
                 placeholder="https://example.com"
               />
               <Button
@@ -76,10 +82,11 @@ export default function AddModal({ isOpen, setIsOpen }) {
                 type="button"
                 variant="secondary"
                 size="icon"
-                className="rounded-l-none border border-l-0 border-input ml-1"
+                className="w-full sm:w-auto sm:rounded-l-none sm:border sm:border-l-0 sm:border-input"
                 onClick={() => handlePaste("url")}
               >
-                <ClipboardIcon className="h-4 w-4" />
+                <ClipboardIcon className="h-4 w-4 mr-2 sm:mr-0" />
+                <span className="sm:hidden">Paste URL</span>
               </Button>
             </div>
           </div>
@@ -87,13 +94,13 @@ export default function AddModal({ isOpen, setIsOpen }) {
             <Label htmlFor="title" className="text-sm font-medium">
               Title
             </Label>
-            <div className="flex">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-0">
               <Input
                 disabled={isLoading}
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="flex-grow rounded-r-none"
+                className="flex-grow sm:rounded-r-none"
                 placeholder="Enter content title"
               />
               <Button
@@ -101,10 +108,11 @@ export default function AddModal({ isOpen, setIsOpen }) {
                 type="button"
                 variant="secondary"
                 size="icon"
-                className="rounded-l-none border border-l-0 border-input ml-1"
+                className="w-full sm:w-auto sm:rounded-l-none sm:border sm:border-l-0 sm:border-input"
                 onClick={() => handlePaste("title")}
               >
-                <ClipboardIcon className="h-4 w-4" />
+                <ClipboardIcon className="h-4 w-4 mr-2 sm:mr-0" />
+                <span className="sm:hidden">Paste Title</span>
               </Button>
             </div>
           </div>
@@ -113,11 +121,11 @@ export default function AddModal({ isOpen, setIsOpen }) {
           <Button
             type="button"
             onClick={handleAdd}
-            className="w-full sm:w-auto"
+            className="w-full"
             disabled={isLoading}
           >
             {isLoading ? (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center gap-2">
                 <LoaderCircle className="h-5 w-5 animate-spin" />
                 Adding...
               </div>
