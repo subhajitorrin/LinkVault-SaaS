@@ -12,17 +12,16 @@ import { Progress } from "@/components/ui/progress";
 import { CheckCircle2, CircleDollarSign, HelpCircle } from "lucide-react";
 
 export default function BillingPage() {
-  const [currentPlan, setCurrentPlan] = useState("Pro");
+  const [currentPlan, setCurrentPlan] = useState("Free");
   const [daysLeft, setDaysLeft] = useState(18);
   const [bookmarksUsed, setBookmarksUsed] = useState(732);
   const [bookmarksLimit, setBookmarksLimit] = useState(1000);
 
   const plans = [
     {
-      name: "Basic",
-      price: "$3.00",
-      features: ["10 bookmarks per month", "Basic tag organization"],
-      cta: "Downgrade"
+      name: "Free",
+      price: "$0.00",
+      features: ["5 bookmarks per month", "Basic tag organization"]
     },
     {
       name: "Pro",
@@ -31,18 +30,16 @@ export default function BillingPage() {
         "40 bookmarks per month",
         "Advanced tag management",
         "Web browser extension"
-      ],
-      cta: "Current Plan"
+      ]
     },
     {
       name: "Enterprise",
-      price: "$49.99",
+      price: "$30.00",
       features: [
         "Unlimited bookmarks",
         "Advanced tag management",
         "Web browser extension"
-      ],
-      cta: "Upgrade"
+      ]
     }
   ];
 
@@ -137,7 +134,7 @@ export default function BillingPage() {
                   variant={plan.name === currentPlan ? "outline" : "default"}
                   disabled={plan.name === currentPlan}
                 >
-                  {plan.cta}
+                  {plan.name === currentPlan ? "Current Plan" : "Subscribe"}
                 </Button>
               </CardContent>
             </Card>
