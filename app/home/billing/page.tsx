@@ -10,11 +10,7 @@ import {
   CardDescription
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import {
-  CheckCircle2,
-  CircleDollarSign,
-  LoaderCircle
-} from "lucide-react";
+import { CheckCircle2, CircleDollarSign, LoaderCircle } from "lucide-react";
 import useZustStore from "@/store/useZustStore";
 
 export default function BillingPage() {
@@ -27,7 +23,11 @@ export default function BillingPage() {
     {
       name: "Free",
       price: "$0.00",
-      features: ["5 bookmarks per month", "Basic tag organization"]
+      features: [
+        "5 bookmarks per month",
+        "No tag organization",
+        "No web browser extension"
+      ]
     },
     {
       name: "Pro",
@@ -107,7 +107,7 @@ export default function BillingPage() {
                   value={
                     ((bookmarksLimit - user.credit) / bookmarksLimit) * 100
                   }
-                  className="w-full h-2 bg-zinc-700"
+                  className="w-full h-2 bg-zinc-700 hidden"
                 />
               </div>
             </div>
@@ -132,15 +132,20 @@ export default function BillingPage() {
                 </div>
               )}
               <CardHeader>
-                <CardTitle className="text-white text-lg sm:text-xl">{plan.name}</CardTitle>
+                <CardTitle className="text-white text-lg sm:text-xl">
+                  {plan.name}
+                </CardTitle>
                 <CardDescription className="text-gray-400 text-sm sm:text-base">
                   {plan.price} / month
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col h-full">
-                <ul className="space-y-2 flex-grow mb-6">
+                <ul className="space-y-2 mb-6">
                   {plan.features.map((feature, index) => (
-                    <li key={index} className="flex items-center text-gray-300 text-sm sm:text-base">
+                    <li
+                      key={index}
+                      className="flex items-center text-gray-300 text-sm sm:text-base"
+                    >
                       <CheckCircle2 className="h-5 w-5 text-green-600 mr-2 flex-shrink-0" />
                       <span>{feature}</span>
                     </li>
