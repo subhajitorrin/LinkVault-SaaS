@@ -13,7 +13,6 @@ import { useSignIn, useSignUp } from "@clerk/nextjs";
 export default function Component() {
   const { isLoaded: isSignInLoaded, signIn, setActive } = useSignIn();
   const { signUp } = useSignUp();
-  const { isLoaded: isSignUpLoaded } = useSignUp();
   const router = useRouter();
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
@@ -172,7 +171,7 @@ export default function Component() {
             </Button>
             <p className="text-white text-sm text-center">
               Don&apos;t have an account ?{" "}
-              <Link href="/signup" className="underline">
+              <Link href="/sign-up" className="underline">
                 Sign Up
               </Link>
             </p>
