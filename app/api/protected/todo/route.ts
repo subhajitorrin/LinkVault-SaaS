@@ -36,7 +36,7 @@ export async function POST(req: Request) {
             platform: string;
             tags: string[];
         } = {
-            title: payload.title || resultJson.title,
+            title: payload.title || resultJson.title || "Unknown",
             platform: resultJson.platform,
             tags: resultJson.keywords
         };
