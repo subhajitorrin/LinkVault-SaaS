@@ -149,77 +149,93 @@ export default function Component() {
             </div>
           ) : (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredBookmarks.map((bookmark, index) => (
-                <Card
-                  key={index}
-                  className="group relative overflow-hidden border border-zinc-800 bg-zinc-900 hover:border-zinc-700 transition-all duration-200"
-                >
-                  <CardContent className="p-4 space-y-4">
-                    <div className="flex justify-between items-start">
-                      <h3 className="font-medium text-sm text-zinc-100 leading-tight mr-2">
-                        {bookmark.title}
-                      </h3>
-                      <div className="flex items-center gap-1 flex-shrink-0">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-zinc-400"
-                        >
-                          <Heart className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-zinc-400"
-                          onClick={() => setUpdateOpen(index)}
-                        >
-                          <SquarePen className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          disabled={isLoadingDel}
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 text-zinc-400"
-                          onClick={() => handleDeleteTodo(bookmark.id)}
-                        >
-                          {isLoadingDel && bookmark.id === getDeleteItem ? (
-                            <LoaderCircle className="h-4 w-4 animate-spin" />
-                          ) : (
-                            <Trash2 className="h-4 w-4" />
-                          )}
-                        </Button>
+              {filteredBookmarks.map((bookmark, index: number) => {
+                const tags = bookmark.tags.sort(
+                  (a: string, b: string) => a.length - b.length
+                );
+                return (
+                  <Card
+                    key={index}
+                    className="group relative overflow-hidden border border-zinc-800 bg-zinc-900 hover:border-zinc-700 transition-all duration-200"
+                  >
+                    <CardContent className="p-4 space-y-4">
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-medium text-sm text-zinc-100 leading-tight mr-2">
+                          {bookmark.title}
+                        </h3>
+                        <div className="flex items-center gap-1 flex-shrink-0">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-zinc-400"
+                          >
+                            <Heart className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-zinc-400"
+                            onClick={() => setUpdateOpen(index)}
+                          >
+                            <SquarePen className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            disabled={isLoadingDel}
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-zinc-400"
+                            onClick={() => handleDeleteTodo(bookmark.id)}
+                          >
+                            {isLoadingDel && bookmark.id === getDeleteItem ? (
+                              <LoaderCircle className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <Trash2 className="h-4 w-4" />
+                            )}
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                    <div className="break-all">
-                      <Link
-                        href={bookmark.link}
-                        className="text-xs text-zinc-400 hover:text-zinc-300"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {bookmark.link.length > 50
-                          ? bookmark.link.substring(0, 50) + "..."
-                          : bookmark.link}
-                      </Link>
-                    </div>
-                    <div className="flex flex-wrap items-center justify-between text-xs gap-2">
-                      <span className="text-zinc-500">
-                        {new Date(bookmark.createdAt).toLocaleDateString(
-                          "en-US",
-                          {
-                            day: "numeric",
-                            month: "long",
-                            year: "numeric"
-                          }
-                        )}
-                      </span>
-                      <span className="inline-flex items-center rounded-full bg-zinc-800/50 px-2 py-1 text-xs font-medium text-zinc-300 ring-1 ring-inset ring-zinc-700/50">
-                        {bookmark.category ? bookmark.category : "Nothing"}
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                      <div className="break-all">
+                        <Link
+                          href={bookmark.link}
+                          className="text-xs text-zinc-400 hover:text-zinc-300"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {bookmark.link.length > 50
+                            ? bookmark.link.substring(0, 50) + "..."
+                            : bookmark.link}
+                        </Link>
+                      </div>
+                      <div className="flex flex-wrap items-center justify-between text-xs gap-2">
+                        <span className="text-zinc-500">
+                          {new Date(bookmark.createdAt).toLocaleDateString(
+                            "en-US",
+                            {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric"
+                            }
+                          )}
+                        </span>
+                        <div className="flex items-center gap-2">
+                          {tags
+                            .slice(0, 2)
+                            .map((tag: string, index: number) => {
+                              return (
+                                <span
+                                  key={index}
+                                  className="inline-flex items-center rounded-full bg-zinc-800/50 px-2 py-1 text-xs font-medium text-zinc-300 ring-1 ring-inset ring-zinc-700/50"
+                                >
+                                  {tag}
+                                </span>
+                              );
+                            })}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
           )}
         </div>
