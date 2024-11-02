@@ -92,7 +92,7 @@ export default function Component() {
   return (
     <main className="flex-1 flex flex-col h-full overflow-hidden">
       <div className="flex-1 overflow-auto p-4 md:p-6">
-        <div className="max-w-7xl mx-auto space-y-6">
+        <div className="max-w-8xl mx-auto space-y-6">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div className="flex items-center space-x-2">
               <BookmarkCheck className="h-5 w-5 text-white" />
@@ -156,98 +156,15 @@ export default function Component() {
               </p>
             </div>
           ) : (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="md:grid md:gap-4 md:grid-cols-3 flex flex-col gap-4">
               {filteredBookmarks.map((bookmark, index: number) => {
                 const tags = bookmark.tags.sort(
                   (a: string, b: string) => a.length - b.length
                 );
                 return (
-                  // <Card
-                  //   key={index}
-                  //   className="group relative overflow-hidden border border-zinc-800 bg-zinc-900 hover:border-zinc-700 transition-all duration-200"
-                  // >
-                  //   <CardContent className="p-4 space-y-4">
-                  //     <div className="flex justify-between items-start">
-                  //       <div className="flex flex-col gap-1 items-start">
-                  //         <p className="inline-flex items-center rounded-full bg-zinc-800/50 px-2 py-1 text-xs font-medium text-zinc-300 ring-1 ring-inset ring-zinc-700/50">{bookmark.platform}</p>
-                  //         <h3 className="font-medium text-sm text-zinc-100 leading-tight mr-2">
-                  //           {bookmark.title}
-                  //         </h3>
-                  //       </div>
-                  //       <div className="flex items-center gap-1 flex-shrink-0">
-                  //         <Button
-                  //           variant="ghost"
-                  //           size="icon"
-                  //           className="h-8 w-8 text-zinc-400"
-                  //         >
-                  //           <Heart className="h-4 w-4" />
-                  //         </Button>
-                  //         <Button
-                  //           variant="ghost"
-                  //           size="icon"
-                  //           className="h-8 w-8 text-zinc-400"
-                  //           onClick={() => setUpdateOpen(index)}
-                  //         >
-                  //           <SquarePen className="h-4 w-4" />
-                  //         </Button>
-                  //         <Button
-                  //           disabled={isLoadingDel}
-                  //           variant="ghost"
-                  //           size="icon"
-                  //           className="h-8 w-8 text-zinc-400"
-                  //           onClick={() => handleDeleteTodo(bookmark.id)}
-                  //         >
-                  //           {isLoadingDel && bookmark.id === getDeleteItem ? (
-                  //             <LoaderCircle className="h-4 w-4 animate-spin" />
-                  //           ) : (
-                  //             <Trash2 className="h-4 w-4" />
-                  //           )}
-                  //         </Button>
-                  //       </div>
-                  //     </div>
-                  //     <div className="break-all">
-                  //       <Link
-                  //         href={bookmark.link}
-                  //         className="text-xs text-zinc-400 hover:text-zinc-300"
-                  //         target="_blank"
-                  //         rel="noopener noreferrer"
-                  //       >
-                  //         {bookmark.link.length > 50
-                  //           ? bookmark.link.substring(0, 50) + "..."
-                  //           : bookmark.link}
-                  //       </Link>
-                  //     </div>
-                  //     <div className="flex flex-wrap items-center justify-between text-xs gap-2">
-                  //       <span className="text-zinc-500">
-                  //         {new Date(bookmark.createdAt).toLocaleDateString(
-                  //           "en-US",
-                  //           {
-                  //             day: "numeric",
-                  //             month: "long",
-                  //             year: "numeric"
-                  //           }
-                  //         )}
-                  //       </span>
-                  //       <div className="flex items-center gap-2">
-                  //         {tags
-                  //           .slice(0, 2)
-                  //           .map((tag: string, index: number) => {
-                  //             return (
-                  //               <span
-                  //                 key={index}
-                  //                 className="inline-flex items-center rounded-full bg-zinc-800/50 px-2 py-1 text-xs font-medium text-zinc-300 ring-1 ring-inset ring-zinc-700/50"
-                  //               >
-                  //                 {tag}
-                  //               </span>
-                  //             );
-                  //           })}
-                  //       </div>
-                  //     </div>
-                  //   </CardContent>
-                  // </Card>
                   <Card
                     key={index}
-                    className=" w-full max-w-xl bg-card bg-zinc-900 text-white border-none relative"
+                    className="md:max-w-md w-full bg-card bg-zinc-900 text-white border-none relative"
                   >
                     <CardHeader className="flex-row items-center justify-between space-y-0 pb-2">
                       <div className="flex items-center gap-2">
