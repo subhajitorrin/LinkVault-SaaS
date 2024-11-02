@@ -1,3 +1,4 @@
+import { GetGeminiResult } from "@/lib/gemini";
 import prisma from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
@@ -18,13 +19,27 @@ export async function POST(req: Request) {
         // Parse the request payload
         const payload = await req.json();
 
-        // Basic input validation
-        if (!payload.title || typeof payload.title !== 'string' || payload.title.trim().length === 0) {
-            return NextResponse.json({ message: "Title is required and must be a non-empty string." }, { status: 400 });
-        }
         if (!payload.url || !isValidUrl(payload.url)) {
             return NextResponse.json({ message: "Invalid URL format." }, { status: 400 });
         }
+
+        const prompt = `Please extract the metadata from the following URL: ${payload.url} and provide the results in JSON format. The JSON object should include the following fields:title: a complete string representing the title of the page what topic is the url is about. platform: a string indicating the platform (e.g., GitHub, YouTube, Instagram, NeonDB, etc.).keywords: an array of up to 5 strings representing relevant tags or keywords.Ensure that the data is structured clearly in the JSON format just give the result with in {title:"",platform:"",keywords:["first","second"]} don't write any other thing except the {}. If you are unable to fetch the title then provide the topic in which the url is based.`
+        const result: string = await GetGeminiResult(prompt)
+        const resultJson: {
+            title: string;
+            platform: string;
+            keywords: string[];
+        } = JSON.parse(result)
+
+        const metadata: {
+            title: string;
+            platform: string;
+            keywords: string[];
+        } = {
+            title: payload.title || resultJson.title,
+            platform: resultJson.platform,
+            keywords: resultJson.keywords
+        };
 
         // Fetch the user from the database
         const user = await prisma.user.findUnique({

@@ -28,6 +28,7 @@ const useZustStore = create(
                 setLoading(true);
                 try {
                     const { data } = await api.post("/api/protected/todo", todo);
+                    console.log(data);
                     //@ts-ignore
                     await get().getAllTodos(setLoading);
                     //@ts-ignore
