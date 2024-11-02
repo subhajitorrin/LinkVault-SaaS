@@ -56,7 +56,7 @@ export async function POST(req: Request) {
         // Create a new todo item in the database
         const newTodo = await prisma.todo.create({
             data: {
-                title: payload.title,
+                title: metadata.title,
                 link: payload.url,
                 platform: metadata.platform,
                 tags: metadata.tags || [],
