@@ -27,6 +27,14 @@ import { Input } from "@/components/ui/input";
 import useZustStore from "@/store/useZustStore";
 import UpdateModal from "@/components/todos/UpdateModal";
 import AddModal from "@/components/todos/AddModal";
+import {
+  BookmarkIcon,
+  ExternalLinkIcon,
+  HeartIcon,
+  Share2Icon
+} from "lucide-react";
+import { CardFooter, CardHeader } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export default function Component() {
   // @ts-ignore
@@ -154,59 +162,147 @@ export default function Component() {
                   (a: string, b: string) => a.length - b.length
                 );
                 return (
+                  // <Card
+                  //   key={index}
+                  //   className="group relative overflow-hidden border border-zinc-800 bg-zinc-900 hover:border-zinc-700 transition-all duration-200"
+                  // >
+                  //   <CardContent className="p-4 space-y-4">
+                  //     <div className="flex justify-between items-start">
+                  //       <div className="flex flex-col gap-1 items-start">
+                  //         <p className="inline-flex items-center rounded-full bg-zinc-800/50 px-2 py-1 text-xs font-medium text-zinc-300 ring-1 ring-inset ring-zinc-700/50">{bookmark.platform}</p>
+                  //         <h3 className="font-medium text-sm text-zinc-100 leading-tight mr-2">
+                  //           {bookmark.title}
+                  //         </h3>
+                  //       </div>
+                  //       <div className="flex items-center gap-1 flex-shrink-0">
+                  //         <Button
+                  //           variant="ghost"
+                  //           size="icon"
+                  //           className="h-8 w-8 text-zinc-400"
+                  //         >
+                  //           <Heart className="h-4 w-4" />
+                  //         </Button>
+                  //         <Button
+                  //           variant="ghost"
+                  //           size="icon"
+                  //           className="h-8 w-8 text-zinc-400"
+                  //           onClick={() => setUpdateOpen(index)}
+                  //         >
+                  //           <SquarePen className="h-4 w-4" />
+                  //         </Button>
+                  //         <Button
+                  //           disabled={isLoadingDel}
+                  //           variant="ghost"
+                  //           size="icon"
+                  //           className="h-8 w-8 text-zinc-400"
+                  //           onClick={() => handleDeleteTodo(bookmark.id)}
+                  //         >
+                  //           {isLoadingDel && bookmark.id === getDeleteItem ? (
+                  //             <LoaderCircle className="h-4 w-4 animate-spin" />
+                  //           ) : (
+                  //             <Trash2 className="h-4 w-4" />
+                  //           )}
+                  //         </Button>
+                  //       </div>
+                  //     </div>
+                  //     <div className="break-all">
+                  //       <Link
+                  //         href={bookmark.link}
+                  //         className="text-xs text-zinc-400 hover:text-zinc-300"
+                  //         target="_blank"
+                  //         rel="noopener noreferrer"
+                  //       >
+                  //         {bookmark.link.length > 50
+                  //           ? bookmark.link.substring(0, 50) + "..."
+                  //           : bookmark.link}
+                  //       </Link>
+                  //     </div>
+                  //     <div className="flex flex-wrap items-center justify-between text-xs gap-2">
+                  //       <span className="text-zinc-500">
+                  //         {new Date(bookmark.createdAt).toLocaleDateString(
+                  //           "en-US",
+                  //           {
+                  //             day: "numeric",
+                  //             month: "long",
+                  //             year: "numeric"
+                  //           }
+                  //         )}
+                  //       </span>
+                  //       <div className="flex items-center gap-2">
+                  //         {tags
+                  //           .slice(0, 2)
+                  //           .map((tag: string, index: number) => {
+                  //             return (
+                  //               <span
+                  //                 key={index}
+                  //                 className="inline-flex items-center rounded-full bg-zinc-800/50 px-2 py-1 text-xs font-medium text-zinc-300 ring-1 ring-inset ring-zinc-700/50"
+                  //               >
+                  //                 {tag}
+                  //               </span>
+                  //             );
+                  //           })}
+                  //       </div>
+                  //     </div>
+                  //   </CardContent>
+                  // </Card>
                   <Card
                     key={index}
-                    className="group relative overflow-hidden border border-zinc-800 bg-zinc-900 hover:border-zinc-700 transition-all duration-200"
+                    className=" w-full max-w-xl bg-card bg-zinc-900 text-white border-none relative"
                   >
-                    <CardContent className="p-4 space-y-4">
-                      <div className="flex justify-between items-start">
-                        <h3 className="font-medium text-sm text-zinc-100 leading-tight mr-2">
-                          {bookmark.title}
-                        </h3>
-                        <div className="flex items-center gap-1 flex-shrink-0">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 text-zinc-400"
-                          >
-                            <Heart className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 text-zinc-400"
-                            onClick={() => setUpdateOpen(index)}
-                          >
-                            <SquarePen className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            disabled={isLoadingDel}
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 text-zinc-400"
-                            onClick={() => handleDeleteTodo(bookmark.id)}
-                          >
-                            {isLoadingDel && bookmark.id === getDeleteItem ? (
-                              <LoaderCircle className="h-4 w-4 animate-spin" />
-                            ) : (
-                              <Trash2 className="h-4 w-4" />
-                            )}
-                          </Button>
-                        </div>
+                    <CardHeader className="flex-row items-center justify-between space-y-0 pb-2">
+                      <div className="flex items-center gap-2">
+                        <Badge className="text-xs font-normal text-white bg-zinc-800 border-none hover:bg-zinc-800">
+                          {bookmark.platform}
+                        </Badge>
                       </div>
-                      <div className="break-all">
-                        <Link
-                          href={bookmark.link}
-                          className="text-xs text-zinc-400 hover:text-zinc-300"
-                          target="_blank"
-                          rel="noopener noreferrer"
+                      <div className="flex gap-2">
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <HeartIcon className="h-4 w-4" />
+                          <span className="sr-only">Like</span>
+                        </Button>
+                        <Button
+                          onClick={() => setUpdateOpen(index)}
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8"
                         >
-                          {bookmark.link.length > 50
-                            ? bookmark.link.substring(0, 50) + "..."
-                            : bookmark.link}
-                        </Link>
+                          <SquarePen className="h-4 w-4" />
+                          <span className="sr-only">Edit</span>
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8"
+                          disabled={isLoadingDel}
+                          onClick={() => handleDeleteTodo(bookmark.id)}
+                        >
+                          {isLoadingDel && bookmark.id === getDeleteItem ? (
+                            <LoaderCircle className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Trash2 className="h-4 w-4" />
+                          )}
+                        </Button>
                       </div>
-                      <div className="flex flex-wrap items-center justify-between text-xs gap-2">
+                    </CardHeader>
+                    <CardContent className="pb-4">
+                      <Link
+                        href={bookmark.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group"
+                      >
+                        <h2 className="text-base font-semibold leading-tight tracking-tight group-hover:underline">
+                          {bookmark.title.length > 40
+                            ? bookmark.title.substring(0, 40) + "..."
+                            : bookmark.title}
+                        </h2>
+                        <p className="mt-2 text-sm text-muted-foreground truncate">
+                          {bookmark.link}
+                        </p>
+                      </Link>
+                    </CardContent>
+                    <CardFooter className="pt-0 ">
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <span className="text-zinc-500">
                           {new Date(bookmark.createdAt).toLocaleDateString(
                             "en-US",
@@ -217,22 +313,19 @@ export default function Component() {
                             }
                           )}
                         </span>
-                        <div className="flex items-center gap-2">
-                          {tags
-                            .slice(0, 2)
-                            .map((tag: string, index: number) => {
-                              return (
-                                <span
-                                  key={index}
-                                  className="inline-flex items-center rounded-full bg-zinc-800/50 px-2 py-1 text-xs font-medium text-zinc-300 ring-1 ring-inset ring-zinc-700/50"
-                                >
-                                  {tag}
-                                </span>
-                              );
-                            })}
-                        </div>
+                        <span>•</span>
+                        {tags.slice(0, 2).map((tag: string, i: number) => {
+                          return (
+                            <span
+                              key={`${index}_${i}`}
+                              className="inline-flex items-center rounded-full bg-zinc-800/50 px-2 py-1 text-xs font-medium text-zinc-300 ring-1 ring-inset ring-zinc-700/50"
+                            >
+                              {tag}
+                            </span>
+                          );
+                        })}
                       </div>
-                    </CardContent>
+                    </CardFooter>
                   </Card>
                 );
               })}
