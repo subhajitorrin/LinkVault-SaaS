@@ -34,11 +34,11 @@ export async function POST(req: Request) {
         const metadata: {
             title: string;
             platform: string;
-            keywords: string[];
+            tags: string[];
         } = {
             title: payload.title || resultJson.title,
             platform: resultJson.platform,
-            keywords: resultJson.keywords
+            tags: resultJson.keywords
         };
 
         // Fetch the user from the database
@@ -58,7 +58,8 @@ export async function POST(req: Request) {
             data: {
                 title: payload.title,
                 link: payload.url,
-                tags: payload.tags || [],
+                platform: metadata.platform,
+                tags: metadata.tags || [],
                 user: { connect: { id: userId } },
             },
         });

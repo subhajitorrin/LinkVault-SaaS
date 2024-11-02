@@ -27,6 +27,7 @@ model Todo {
   id        String   @id @default(cuid())
   title     String
   link      String
+  platform  String
   tags      String[]
   user      User     @relation(fields: [userId], references: [id])
   userId    String
